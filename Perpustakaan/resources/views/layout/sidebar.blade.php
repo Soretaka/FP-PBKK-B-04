@@ -13,8 +13,8 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item active {{ ($title === "Dashboard") ? 'active' : '' }}">
-        <a class="nav-link" href="#">
+    <li class="nav-item {{ ($title === "Dashboard") ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('dashboard-index') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
@@ -38,7 +38,7 @@
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Pilih Menu:</h6>
-                <a class="collapse-item" href="#">Kategori Buku</a>
+                <a class="collapse-item {{ ($title === "Category") ? 'active' : '' }}" href="{{ route('category.index') }}">Kategori Buku</a>
                 <a class="collapse-item" href="#">Data Buku</a>
                 <a class="collapse-item" href="#">Data Anggota</a>
                 <a class="collapse-item" href="#">Peminjaman</a>

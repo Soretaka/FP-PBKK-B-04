@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,4 +16,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 // dashboard
-Route::get('/dashboard', [DashboardController::class, 'index']);
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard-index');
+
+// category
+Route::group(['prefix' => 'category', 'as' => 'category.'], function(){
+    Route::get('/', [CategoryController::class, 'index'])->name('index');
+    Route::get('/input-form', [CategoryController::class, 'showInputForm'])->name('input-data');
+    Route::post('/store', [CategoryController::class, 'store'])->name('store-data');
+    Route::get('/edit/{id}', [CategoryController::class, 'showEditForm'])->name('edit-form');
+    Route::post('/update/{id}', [CategoryController::class, 'update'])->name('update-data');
+    Route::delete('/delete/{id}', [CategoryController::class, 'destroy'])->name('delete-data');
+});
