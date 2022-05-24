@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,10 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// dashboard
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard-index');
+Route::get('/', function () {
+    return view('welcome');
+});
 
-// category
+Route::get('/dashboard', function () {
+    return view('dashboard');
+}, [DashboardController::class, 'index'])->middleware(['auth'])->name('dashboard-index');
+
 Route::group(['prefix' => 'category', 'as' => 'category.'], function(){
     Route::get('/', [CategoryController::class, 'index'])->name('index');
     Route::get('/input-form', [CategoryController::class, 'showInputForm'])->name('input-data');
@@ -27,3 +29,5 @@ Route::group(['prefix' => 'category', 'as' => 'category.'], function(){
     Route::post('/update/{id}', [CategoryController::class, 'update'])->name('update-data');
     Route::delete('/delete/{id}', [CategoryController::class, 'destroy'])->name('delete-data');
 });
+ 
+require __DIR__.'/auth.php';
