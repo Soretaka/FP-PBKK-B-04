@@ -86,7 +86,8 @@
                 </div>
                 <div class="mb-2">
                     <button type="submit" class="btn btn-primary float-right">Simpan</button>
-                    <a href="{{ route('book.index') }}" class="btn btn-secondary float-right mr-3">Kembali</a>
+                    <a class="btn btn-secondary float-right mr-3" data-toggle="modal" data-target="#modalBackHome">Kembali</a>
+                    @include('book.backhome-modal')
                 </div>
             </form>
         </div>
