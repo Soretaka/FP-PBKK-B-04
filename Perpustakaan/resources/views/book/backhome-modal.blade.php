@@ -11,7 +11,7 @@
             <div class="modal-body">Anda yakin akan kembali ke halaman utama?</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">{{ __('Batal') }}</button>
-                <a href="{{ route('category.index') }}" class="btn btn-primary">{{ __('Kembali') }}</a>
+                <a href="{{ route('book.index') }}" class="btn btn-primary">{{ __('Kembali') }}</a>
             </div>
         </div>
     </div>

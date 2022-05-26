@@ -20,7 +20,7 @@ class CategoryController extends Controller
     // show input form
     public function showInputForm() {
         return view('category.create', [
-            "title" => "Input Form"
+            "title" => "Category Input Form"
         ]);
     }
 
@@ -39,7 +39,7 @@ class CategoryController extends Controller
     public function showEditForm($id) {
         $category = Category::where('id', $id)->first();
         return view('category.edit', [
-            "title" => "Edit Form",
+            "title" => "Category Edit Form",
             "category" => $category
         ]);
     }

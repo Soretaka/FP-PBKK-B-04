@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
@@ -26,4 +27,15 @@ Route::group(['prefix' => 'category', 'as' => 'category.'], function(){
     Route::get('/edit/{id}', [CategoryController::class, 'showEditForm'])->name('edit-form');
     Route::post('/update/{id}', [CategoryController::class, 'update'])->name('update-data');
     Route::delete('/delete/{id}', [CategoryController::class, 'destroy'])->name('delete-data');
+});
+
+// book
+Route::group(['prefix' => 'book', 'as' => 'book.'], function(){
+    Route::get('/', [BookController::class, 'index'])->name('index');
+    Route::get('/input-form', [BookController::class, 'showInputForm'])->name('input-data');
+    Route::post('/store', [BookController::class, 'store'])->name('store-data');
+    Route:: get('/detail/{id}', [BookController::class, 'detail'])->name('detail-data');
+    Route::get('/edit/{id}', [BookController::class, 'showEditForm'])->name('edit-form');
+    Route::post('/update/{id}', [BookController::class, 'update'])->name('update-data');
+    Route::delete('/delete/{id}', [BookController::class, 'destroy'])->name('delete-data');
 });
