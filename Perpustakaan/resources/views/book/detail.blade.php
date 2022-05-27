@@ -6,6 +6,11 @@
 
     <div class="card shadow mb-4">
         <div class="card-body">
+            <div class="form-group mt-3">
+                @if ($book->image)
+                    <img src="{{ asset('storage/' . $book->image) }}" alt="{{ $book->judul }}" class="rounded mx-auto d-block top" style="width: 5cm">
+                @endif
+            </div>
             <div class="form-group row">
                 <label for="judul" class="col-sm-2 col-form-label">Judul Buku</label>
                 <div class="col-sm-8">

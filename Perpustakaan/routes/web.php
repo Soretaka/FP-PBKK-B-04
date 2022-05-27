@@ -22,6 +22,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth'])->name('dashboard-index');
 
+// category
 Route::group(['prefix' => 'category', 'as' => 'category.'], function(){
     Route::get('/', [CategoryController::class, 'index'])->name('index');
     Route::get('/input-form', [CategoryController::class, 'showInputForm'])->name('input-data');

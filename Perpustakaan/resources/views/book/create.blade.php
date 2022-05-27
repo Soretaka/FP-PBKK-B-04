@@ -6,8 +6,18 @@
 
     <div class="card shadow mb-4">
         <div class="card-body">
-            <form action="{{ route('book.store-data') }}" method="POST">
+            <form action="{{ route('book.store-data') }}" method="POST" enctype="multipart/form-data">
                 {{ csrf_field() }}
+                <div class="form-group row">
+                    <label for="image" class="col-sm-2 col-form-label">Pilih Gambar</label>
+                    <div class="col-sm-5">
+                        <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" onchange="imagePreview()" autofocus>
+                        <img class="img-preview img-fluid mt-3 col-sm-5">
+                        @error('image')
+                            <div id="imageFeedback" class="invalid-feedback">Format jpeg,jpg,png ukuran maksimum 2 MB</div>
+                        @enderror
+                    </div>
+                </div>
                 <div class="form-group row">
                     <label for="judul" class="col-sm-2 col-form-label">Judul Buku</label>
                     <div class="col-sm-8">
@@ -92,4 +102,20 @@
             </form>
         </div>
     </div>
+
+    <script>
+        function imagePreview() {
+            const image = document.querySelector('#image');
+            const imgPreview = document.querySelector('.img-preview');
+
+            imgPreview.style.display = 'block';
+
+            const oFReader = new FileReader();
+            oFReader.readAsDataURL(image.files[0]);
+
+            oFReader.onload = function(oFREvent) {
+                imgPreview.src = oFREvent.target.result;
+            }
+        }
+    </script>
 @endsection

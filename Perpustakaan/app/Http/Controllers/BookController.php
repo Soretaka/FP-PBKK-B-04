@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
 {
@@ -31,6 +32,7 @@ class BookController extends Controller
     // store data
     public function store(Request $request) {
         $validateData = $request->validate([
+            'image' => 'required | image | mimes:jpeg,png,jpg | max:2048',
             'judul' => 'required',
             'penulis' => 'required',
             'penerbit' => 'required',
@@ -39,7 +41,9 @@ class BookController extends Controller
             'jumlah' => 'required',
             'kategori_id' => 'required'
         ]);
-
+        if($request->file('image')) {
+            $validateData['image'] = $request->file('image')->store('book-image');
+        }
         Book::create($validateData);
 
         return redirect()->route('book.index')->with('status', 'Data buku berhasil ditambah!');
@@ -59,6 +63,7 @@ class BookController extends Controller
     public function showEditForm($id) {
         $book = Book::where('id', $id)->first();
         $categories = Category::all();
+
         return view('book.edit', [
             "title" => "Book Edit Form",
             "book" => $book,
@@ -70,6 +75,7 @@ class BookController extends Controller
     public function update(Request $request, $id) {
         $book = Book::findOrFail($id);
         $validateData = $request->validate([
+            'image' => 'required | image | mimes:jpeg,png,jpg | max:2048',
             'judul' => 'required',
             'penulis' => 'required',
             'penerbit' => 'required',
@@ -78,6 +84,12 @@ class BookController extends Controller
             'jumlah' => 'required',
             'kategori_id' => 'required'
         ]);
+        if($request->file('image')) {
+            if($request->oldImage) {
+                Storage::delete($request->oldImage);
+            }
+            $validateData['image'] = $request->file('image')->store('book-image');
+        }
         $book->update($validateData);
         
         return redirect()->route('book.index')->with('status', 'Data buku berhasil diedit!');
@@ -86,7 +98,11 @@ class BookController extends Controller
     // delete
     public function destroy($id) {
         $book = Book::findOrFail($id);
+        if($book->image) {
+            Storage::delete($book->image);
+        }
         $book->delete();
+
         return redirect()->route('book.index')->with('status', 'Data buku berhasil dihapus!');
     }
 }

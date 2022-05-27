@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::enableForeignKeyConstraints();
         Schema::create('books', function (Blueprint $table) {
             $table->id();
+            $table->string('image');
             $table->string('judul');
             $table->string('penulis');
             $table->string('penerbit');
