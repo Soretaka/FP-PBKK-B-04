@@ -2,7 +2,7 @@
 
 @section('container')
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-grey-800">Data Buku</h1>
+    <h1 class="h3 mb-2 text-grey-800">Data Anggota</h1>
 
     @if (session('status'))
         <div class="alert alert-success">
@@ -13,11 +13,11 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <a href="{{ route('book.input-data') }}" class="btn btn-primary btn-icon-split btn-sm">
+            <a href="{{ route('member.input-data') }}" class="btn btn-primary btn-icon-split btn-sm">
                 <span class="icon text-grey-50">
                     <i class="fas fa-plus"></i>
                 </span>
-                <span class="text">Tambah data buku</span>
+                <span class="text">Tambah data anggota</span>
             </a>
         </div>
         
@@ -27,35 +27,33 @@
                     <thead>
                         <tr class="text-center">
                             <th>No</th>
-                            <th>Judul</th>
-                            <th>Penulis</th>
-                            <th>Penerbit</th>
-                            <th>Status</th>
+                            <th>Nama</th>
+                            <th>NIS</th>
+                            <th>No Handphone</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     @php
-                        $i = 1;
+                        $i = 1
                     @endphp
-                    @foreach ($books as $book)
+                    @foreach ($members as $member)
                     <tbody>
                         <tr>
                             <td>{{ $i }}</td>
-                            <td>{{ $book->judul }}</td>
-                            <td>{{ $book->penulis }}</td>
-                            <td>{{ $book->penerbit }}</td>
-                            <td class="text-center">{{ $book->status }}</td>
+                            <td>{{ $member->nama }}</td>
+                            <td>{{ $member->nis }}</td>
+                            <td>{{ $member->nomor_hp }}</td>
                             <td>
-                                <a href="{{ route('book.detail-data', $book->id) }}" class="badge badge-info">detail</a>
+                                <a href="{{ route('member.detail-data', $member->id) }}" class="badge badge-info">detail</a>
                             </td>
                         </tr>
                     </tbody>
                     @php
-                        $i += 1;
+                        $i += 1
                     @endphp
                     @endforeach
                 </table>
             </div>
         </div>
-    </div>
+    </div> 
 @endsection

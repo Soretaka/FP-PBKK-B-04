@@ -83,11 +83,15 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="jumlah" class="col-sm-2 col-form-label">Jumlah</label>
-                    <div class="col-sm-2">
-                        <input type="number" class="form-control @error('jumlah') is-invalid @enderror" id="jumlah" name="jumlah" value="{{ $book->jumlah }}" autofocus>
-                        @error('jumlah')
-                            <div id="validationServerUsernameFeedback" class="invalid-feedback">Field jumlah harus diisi</div>
+                    <label for="status" class="col-sm-2 col-form-label">Status</label>
+                    <div class="col-sm-3">
+                        <select class="form-control @error('status') is-invalid @enderror" id="status" name="status" autofocus>
+                            <option value="">-Pilih Status-</option>
+                            <option value="Tersedia" @if($book->status == 'Tersedia') selected @endif>Tersedia</option>
+                            <option value="Tidak tersedia" @if($book->status == 'Tidak tersedia') selected @endif>Tidak tersedia</option>
+                        </select>
+                        @error('status')
+                            <div id="validationServerUsernameFeedback" class="invalid-feedback">Field status harus diisi</div>
                         @enderror
                     </div>
                 </div>

@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('penerbit');
             $table->year('tahun_terbit');
             $table->string('isbn');
-            $table->integer('jumlah');
+            $table->enum('status', ['Tersedia', 'Tidak tersedia']);
             $table->timestamps();
         });
         Schema::table('books', function (Blueprint $table) {
