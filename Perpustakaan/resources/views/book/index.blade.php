@@ -1,5 +1,4 @@
-@extends('layout.app')
-
+@extends(Auth::user()->isAdmin? 'layout.app' : 'layoutUser.app')
 @section('container')
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-grey-800">Data Buku</h1>
@@ -11,6 +10,7 @@
     @endif
 
     <!-- DataTales Example -->
+    @if(Auth::User()->isAdmin)
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <a href="{{ route('book.input-data') }}" class="btn btn-primary btn-icon-split btn-sm">
@@ -20,7 +20,18 @@
                 <span class="text">Tambah data buku</span>
             </a>
         </div>
-        
+    @endif
+    @if(Auth::User()->isAdmin === 0)
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <a href="#" class="btn btn-primary btn-icon-split btn-sm">
+                <span class="icon text-grey-50">
+                    <i class="fas fa-plus"></i>
+                </span>
+                <span class="text">Pinjam Buku</span>
+            </a>
+        </div>   
+    @endif
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
