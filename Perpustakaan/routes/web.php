@@ -4,7 +4,7 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Auth\RedirectAuthenticatedUsersController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,8 +20,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth'])->name('dashboard-index');
+//Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth'])->name('dashboard-index');
 
+Route::group(['middleware' => 'auth'], function() {
+    Route::get("/redirectAuthenticatedUsers", [RedirectAuthenticatedUsersController::class, "home"]);
+
+    Route::group(['middleware' => 'checkRole:admin'], function() {
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard-index');
+    });
+    Route::group(['middleware' => 'checkRole:user'], function() {
+      //  Route::get('/', '')->name('');
+    });
+    Route::group(['middleware' => 'checkRole:guest'], function() {
+       // Route::get('/', '')->name('');
+    });
+});
 // category
 Route::group(['prefix' => 'category', 'as' => 'category.'], function(){
     Route::get('/', [CategoryController::class, 'index'])->name('index');
