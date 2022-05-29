@@ -1,4 +1,4 @@
-@extends('layoutUser.app')
+@extends(Auth::user()->isAdmin? 'layout.app' : 'layoutUser.app')
 
 @section('container')
     <!-- Page Heading -->

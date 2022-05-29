@@ -24,7 +24,7 @@
     @if(Auth::User()->isAdmin === 0)
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <a href="{{ route('book.pinjam-form') }}" class="btn btn-primary btn-icon-split btn-sm">
+            <a href="#" class="btn btn-primary btn-icon-split btn-sm">
                 <span class="icon text-grey-50">
                     <i class="fas fa-plus"></i>
                 </span>
