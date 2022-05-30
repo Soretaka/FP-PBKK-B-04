@@ -16,12 +16,16 @@ return new class extends Migration
         Schema::enableForeignKeyConstraints();
         Schema::create('borrows', function (Blueprint $table) {
             $table->id();
+            $table->string('isbn');
             $table->date('tanggal_peminjaman');
             $table->date('tanggal_kembali');
             $table->timestamps();
         });
         Schema::table('borrows', function (Blueprint $table) {
-            
+            $table->unsignedBigInteger('buku_id');
+         
+            $table->foreign('buku_id')->references('id')->on('books')
+                    ->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
