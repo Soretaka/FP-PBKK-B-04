@@ -56,6 +56,7 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('/userDashboard', [DashboardController::class, 'indexUser'])->name('dashboard-index');
         Route::group(['prefix' => 'book', 'as' => 'book.'], function(){
             Route::get('/', [BookController::class, 'index'])->name('index');
+            Route:: get('/detail/{id}', [BookController::class, 'detail'])->name('detail-data');
         });
     });
     

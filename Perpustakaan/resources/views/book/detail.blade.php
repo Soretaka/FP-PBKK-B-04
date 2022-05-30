@@ -54,12 +54,14 @@
                 </div>
             </div>
             <div class="mb-2">
+                @if(Auth::User()->isAdmin)
                 <a href="{{ route('book.edit-form', $book->id) }}" class="btn btn-warning float-left mr-2">
                     <i class="fas fa-pen"></i>
                 </a>
                 <a class="btn btn-danger float-left mr-2" data-toggle="modal" data-target="#modalDelete-{{ $book->id }}">
                     <i class="fas fa-trash"></i>
                 </a>
+                @endif
                 <a href="{{ route('book.index') }}" class="btn btn-secondary float-left">Kembali</a>
                 @include('book.delete-modal')
             </div>
