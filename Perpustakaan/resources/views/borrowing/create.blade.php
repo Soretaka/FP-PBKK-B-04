@@ -8,11 +8,16 @@
         <div class="card-body">
             <form action="{{ route('category.store-data') }}" method="POST">
                 {{ csrf_field() }}
-                <div class="form-group row">
-                    <label for="kategori_buku" class="col-sm-2 col-form-label">Kategori Buku</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control @error('kategori_buku') is-invalid @enderror" id="kategori_buku" name="kategori_buku" value="{{ old('kategori_buku') }}" autofocus>
-                        @error('kategori_buku')
+                <div class="form-group row mb-4">
+                    <label for="kategori_id" class="col-sm-2 col-form-label">Kategori</label>
+                    <div class="col-sm-5">
+                        <select class="form-control @error('kategori_id') is-invalid @enderror" id="kategori_id" name="kategori_id" autofocus>
+                            <option value="">-Pilih Kategori-</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->kategori_buku }}</option>
+                            @endforeach
+                        </select>
+                        @error('kategori_id')
                             <div id="validationServerUsernameFeedback" class="invalid-feedback">Field kategori harus diisi</div>
                         @enderror
                     </div>
