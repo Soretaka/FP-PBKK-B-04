@@ -14,7 +14,7 @@
                         <select class="form-control @error('kategori_id') is-invalid @enderror" id="kategori_id" name="kategori_id" autofocus>
                             <option value="">-Pilih Buku-</option>
                             @foreach ($books as $book)
-                                <option value="{{ $category->id }}">{{ $book->judul }}</option>
+                                <option value="{{ $book->isbn }}">{{ $book->judul }}</option>
                             @endforeach
                         </select>
                         @error('kategori_id')
@@ -22,10 +22,28 @@
                         @enderror
                     </div>
                 </div>
+                <div class="form-group row">
+                    <label for="judul" class="col-sm-2 col-form-label">Judul Buku</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control datepicker @error('judul') is-invalid @enderror" id="judul" name="judul" value="{{ old('judul') }}" autofocus>
+                        @error('judul')
+                            <div id="validationServerUsernameFeedback" class="invalid-feedback">Field judul harus diisi</div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="judul" class="col-sm-2 col-form-label">Judul Buku</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control @error('judul') is-invalid @enderror" id="judul" name="judul" value="{{ old('judul') }}" autofocus>
+                        @error('judul')
+                            <div id="validationServerUsernameFeedback" class="invalid-feedback">Field judul harus diisi</div>
+                        @enderror
+                    </div>
+                </div>
                 <div class="mb-2">
                     <button type="submit" class="btn btn-primary float-right">Simpan</button>
                     <a class="btn btn-secondary float-right mr-3" data-toggle="modal" data-target="#modalBackHome">Kembali</a>
-                    @include('category.backhome-modal')
+                    @include('borrow.backhome-modal')
                 </div>
             </form>
         </div>
