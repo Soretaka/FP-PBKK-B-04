@@ -23,19 +23,19 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="judul" class="col-sm-2 col-form-label">Judul Buku</label>
+                    <label for="tanggal_peminjaman" class="col-sm-2 col-form-label">Tanggal Peminjaman</label>
                     <div class="col-sm-8">
-                        <input type="date" class="form-control @error('judul') is-invalid @enderror" id="judul" name="judul" value="{{ old('judul') }}" autofocus>
-                        @error('judul')
+                        <input type="date" class="form-control @error('tanggal_peminjaman') is-invalid @enderror" id="tanggal_peminjaman" name="tanggal_peminjaman" value="{{ old('tanggal_peminjaman') }}" autofocus>
+                        @error('tanggal_peminjaman')
                             <div id="validationServerUsernameFeedback" class="invalid-feedback">Field Tanggal Peminjaman harus diisi</div>
                         @enderror
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="judul" class="col-sm-2 col-form-label">Judul Buku</label>
+                    <label for="tanggal_kembali" class="col-sm-2 col-form-label">Tanggal Kembali</label>
                     <div class="col-sm-8">
-                        <input type="date" class="form-control @error('judul') is-invalid @enderror" id="judul" name="judul" value="{{ old('judul') }}" autofocus>
-                        @error('judul')
+                        <input type="date" class="form-control @error('tanggal_kembali') is-invalid @enderror" id="tanggal_kembali" name="tanggal_kembali" value="{{ old('tanggal_kembali') }}" autofocus>
+                        @error('tanggal_kembali')
                             <div id="validationServerUsernameFeedback" class="invalid-feedback">Field Tanggal Kembali diisi</div>
                         @enderror
                     </div>
