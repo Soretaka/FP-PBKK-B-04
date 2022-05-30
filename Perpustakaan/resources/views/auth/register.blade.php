@@ -45,6 +45,32 @@
                                 name="password_confirmation" required />
             </div>
 
+            <!-- TL_USER -->    
+            <div class="mt-4" >
+                <x-label for="TL" :value="__('Tanggal Lahir')" />
+
+                <x-input id="TL" class="block mt-1 w-full" type="text" name="TL" data-language="en" data-position="top left"  :value="old('TL')" required autofocus />
+            </div>
+
+            <!-- TT_USER -->
+            <div class="mt-4">
+                <x-label for="TT" :value="__('Tempat Lahir')" />
+
+                <x-input id="TT" class="block mt-1 w-full" type="text" name="TT" :value="old('TT')" required autofocus />
+            </div>
+            <!-- JK_USER -->
+            <div class="mt-4">
+                <x-label for="JK" :value="__('Jenis Kelamin')" />
+
+                <x-input id="JK" class="block mt-1 w-full" type="text" name="JK" :value="old('JK')" required autofocus />
+            </div>
+            <!-- NIS -->
+            <div class="mt-4">
+                <x-label for="NIS" :value="__('NIS')" />
+
+                <x-input id="NIS" class="block mt-1 w-full" type="text" name="NIS" :value="old('NIS')" required autofocus />
+            </div>
+
             <div class="flex items-center justify-end mt-4">
                 <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
                     {{ __('Already registered?') }}
