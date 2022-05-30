@@ -49,14 +49,14 @@
             <div class="mt-4" >
                 <x-label for="TL" :value="__('Tanggal Lahir')" />
 
-                <x-input id="TL" class="block mt-1 w-full" type="text" name="TL" data-language="en" data-position="top left"  :value="old('TL')" required autofocus />
+                <x-input id="TL" class="block mt-1 w-full" type="date" name="TL" data-language="en" data-position="top left"  :value="old('TL')" required autofocus />
             </div>
 
             <!-- TT_USER -->
             <div class="mt-4">
-                <x-label for="TT" :value="__('Tempat Lahir')" />
+                <x-label for="Alamat" :value="__('Alamat')" />
 
-                <x-input id="TT" class="block mt-1 w-full" type="text" name="TT" :value="old('TT')" required autofocus />
+                <x-input id="Alamat" class="block mt-1 w-full" type="text" name="Alamat" :value="old('Alamat')" required autofocus />
             </div>
             <!-- JK_USER -->
             <div class="mt-4">
