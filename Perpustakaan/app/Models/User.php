@@ -23,7 +23,7 @@ class User extends Authenticatable
         'password',
         'isAdmin',
         'TL',
-        'TT',
+        'Alamat',
         'JK',
         'NIS'
     ];
