@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BorrowController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
@@ -81,6 +82,12 @@ Route::group(['prefix' => 'book', 'as' => 'book.'], function(){
         Route::group(['prefix' => 'book', 'as' => 'book.'], function(){
             Route::get('/', [BookController::class, 'index'])->name('index');
             Route:: get('/detail/{id}', [BookController::class, 'detail'])->name('detail-data');
+        });
+
+        // borrow
+        Route::group(['prefix' => 'borrow', 'as' => 'borrow.'], function(){
+            Route::get('/input-form', [BorrowController::class, 'showInputForm'])->name('input-data');
+            Route::post('/store', [BorrowController::class, 'store'])->name('store-data');
         });
     });
     
