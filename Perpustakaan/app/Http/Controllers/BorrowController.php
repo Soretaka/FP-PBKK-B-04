@@ -11,7 +11,8 @@ class BorrowController extends Controller
     // show input form
     public function showInputForm() {
         return view('borrow.create', [
-            "title" => "Borrow Input Form"
+            "title" => "Borrow Input Form",
+            "books" => $books
         ]);
     }
 

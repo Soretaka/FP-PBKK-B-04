@@ -6,15 +6,15 @@
 
     <div class="card shadow mb-4">
         <div class="card-body">
-            <form action="{{ route('category.store-data') }}" method="POST">
+            <form action="{{ route('borrow.store-data') }}" method="POST">
                 {{ csrf_field() }}
                 <div class="form-group row mb-4">
                     <label for="kategori_id" class="col-sm-2 col-form-label">Kategori</label>
                     <div class="col-sm-5">
                         <select class="form-control @error('kategori_id') is-invalid @enderror" id="kategori_id" name="kategori_id" autofocus>
-                            <option value="">-Pilih Kategori-</option>
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->kategori_buku }}</option>
+                            <option value="">-Pilih Buku-</option>
+                            @foreach ($books as $book)
+                                <option value="{{ $category->id }}">{{ $book->judul }}</option>
                             @endforeach
                         </select>
                         @error('kategori_id')
