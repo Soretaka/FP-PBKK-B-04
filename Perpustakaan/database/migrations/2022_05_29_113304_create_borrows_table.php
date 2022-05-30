@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::enableForeignKeyConstraints();
         Schema::create('borrows', function (Blueprint $table) {
             $table->id();
-            $table->string('isbn');
             $table->foreignId('book_id');
+            $table->foreignId('user_id');
             $table->date('tanggal_peminjaman');
             $table->date('tanggal_kembali');
             $table->timestamps();        

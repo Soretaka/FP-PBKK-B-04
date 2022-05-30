@@ -9,15 +9,15 @@
             <form action="{{ route('borrow.store-data') }}" method="POST">
                 {{ csrf_field() }}
                 <div class="form-group row mb-4">
-                    <label for="isbn" class="col-sm-2 col-form-label">Judul Buku</label>
+                    <label for="id" class="col-sm-2 col-form-label">Judul Buku</label>
                     <div class="col-sm-5">
-                        <select class="form-control @error('isbn') is-invalid @enderror" id="isbn" name="isbn" autofocus>
+                        <select class="form-control @error('id') is-invalid @enderror" id="id" name="id" autofocus>
                             <option value="">-Pilih Buku-</option>
                             @foreach ($books as $book)
-                                <option value="{{ $book->isbn }}">{{ $book->judul }}</option>
+                                <option value="{{ $book->id }}">{{ $book->judul }}</option>
                             @endforeach
                         </select>
-                        @error('isbn')
+                        @error('id')
                             <div id="validationServerUsernameFeedback" class="invalid-feedback">Field Buku harus diisi</div>
                         @enderror
                     </div>
