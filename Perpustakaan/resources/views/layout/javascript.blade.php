@@ -14,3 +14,8 @@
 <!-- Page level custom scripts -->
 {{-- <script src="/style/js/demo/chart-area-demo.js"></script>
 <script src="/style/js/demo/chart-pie-demo.js"></script> --}}
+
+<!-- Datepicker -->
+<script src="/style/vendor/air-datepicker/dist/js/datepicker.js"></script>
+<!-- Include English language -->
+<script src="/style/vendor/air-datepicker/dist/js/i18n/datepicker.en.js"></script>

@@ -3,6 +3,7 @@
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MemberController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RedirectAuthenticatedUsersController;
 /*
@@ -25,6 +26,27 @@ Route::get('/', function () {
 Route::group(['middleware' => 'auth'], function() {
     Route::get("/redirectAuthenticatedUsers", [RedirectAuthenticatedUsersController::class, "home"]);
 
+// book
+Route::group(['prefix' => 'book', 'as' => 'book.'], function(){
+    Route::get('/', [BookController::class, 'index'])->name('index');
+    Route::get('/input-form', [BookController::class, 'showInputForm'])->name('input-data');
+    Route::post('/store', [BookController::class, 'store'])->name('store-data');
+    Route::get('/detail/{id}', [BookController::class, 'detail'])->name('detail-data');
+    Route::get('/edit/{id}', [BookController::class, 'showEditForm'])->name('edit-form');
+    Route::post('/update/{id}', [BookController::class, 'update'])->name('update-data');
+    Route::delete('/delete/{id}', [BookController::class, 'destroy'])->name('delete-data');
+});
+
+// member
+Route::group(['prefix' => 'member', 'as' => 'member.'], function(){
+    Route::get('/', [MemberController::class, 'index'])->name('index');
+    Route::get('/input-form', [MemberController::class, 'showInputForm'])->name('input-data');
+    Route::post('/store', [MemberController::class, 'store'])->name('store-data');
+    Route::get('/detail/{id}', [MemberController::class, 'detail'])->name('detail-data');
+    Route::get('/edit/{id}', [MemberController::class, 'showEditForm'])->name('edit-form');
+    Route::post('/update/{id}', [MemberController::class, 'update'])->name('update-data');
+    Route::delete('/delete/{id}', [MemberController::class, 'destroy'])->name('delete-data');
+});
     //Admin
     Route::group(['middleware' => 'checkRole:admin'], function() {
         Route::get('/adminDashboard', [DashboardController::class, 'indexAdm'])->name('dashboard-index');

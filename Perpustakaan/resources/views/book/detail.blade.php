@@ -42,9 +42,9 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="jumlah" class="col-sm-2 col-form-label">Jumlah</label>
+                <label for="status" class="col-sm-2 col-form-label">Status</label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control" id="jumlah" name="jumlah" value="{{ $book->jumlah }}" readonly>
+                    <input type="text" class="form-control" id="status" name="status" value="{{ $book->status }}" readonly>
                 </div>
             </div>
             <div class="form-group row mb-4">

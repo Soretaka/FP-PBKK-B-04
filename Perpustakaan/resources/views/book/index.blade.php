@@ -41,7 +41,7 @@
                             <th>Judul</th>
                             <th>Penulis</th>
                             <th>Penerbit</th>
-                            <th>Jumlah</th>
+                            <th>Status</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -55,7 +55,7 @@
                             <td>{{ $book->judul }}</td>
                             <td>{{ $book->penulis }}</td>
                             <td>{{ $book->penerbit }}</td>
-                            <td class="text-center">{{ $book->jumlah }}</td>
+                            <td class="text-center">{{ $book->status }}</td>
                             <td>
                                 <a href="{{ route('book.detail-data', $book->id) }}" class="badge badge-info">detail</a>
                             </td>

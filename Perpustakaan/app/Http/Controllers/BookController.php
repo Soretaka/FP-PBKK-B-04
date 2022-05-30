@@ -38,7 +38,7 @@ class BookController extends Controller
             'penerbit' => 'required',
             'tahun_terbit' => 'required',
             'isbn' => 'required',
-            'jumlah' => 'required',
+            'status' => 'required',
             'kategori_id' => 'required'
         ]);
         if($request->file('image')) {
@@ -81,7 +81,7 @@ class BookController extends Controller
             'penerbit' => 'required',
             'tahun_terbit' => 'required',
             'isbn' => 'required',
-            'jumlah' => 'required',
+            'status' => 'required',
             'kategori_id' => 'required'
         ]);
         if($request->file('image')) {
