@@ -1,17 +1,17 @@
-@extends(Auth::user()->isAdmin? 'layout.app' : 'layoutUser.app')
+@extends('layout.app')
 
 @section('container')
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Form Input Kategori</h1>
+    <h1 class="h3 mb-2 text-gray-800">Edit Kategori Buku</h1>
 
     <div class="card shadow mb-4">
         <div class="card-body">
-            <form action="{{ route('borrow.store-data') }}" method="POST">
+            <form action="{{ route('borrow.update-data', $borrows->id) }}" method="POST">
                 {{ csrf_field() }}
                 <div class="form-group row mb-4">
                     <label for="user_id" class="col-sm-2 col-form-label">Nama Peminjam</label>
                     <div class="col-sm-5">
-                        <select class="form-control mdb-select md-form @error('user_id') is-invalid @enderror" searchable="Select here..." id="user_id" name="user_id" autofocus>
+                        <select class="form-control @error('user_id') is-invalid @enderror" id="user_id" name="user_id" autofocus>
                             <option value="">-Nama Peminjam-</option>
                             @foreach ($users as $user)
                                 <option value="{{ $user->id }}">{{ $user->name }}</option>
@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <div class="form-group row mb-4">
-                    <label for="book_id" class="col-sm-2 col-form-label">Judul Buku</label>
+                    <label for="book_id" class="col-sm-2 col-form-label">Judul</label>
                     <div class="col-sm-5">
                         <select class="form-control @error('book_id') is-invalid @enderror" id="book_id" name="book_id" autofocus>
                             <option value="">-Pilih Buku-</option>
@@ -32,7 +32,7 @@
                             @endforeach
                         </select>
                         @error('book_id')
-                            <div id="validationServerUsernameFeedback" class="invalid-feedback">Field Buku harus diisi</div>
+                            <div id="validationServerUsernameFeedback" class="invalid-feedback">Field judul buku harus diisi</div>
                         @enderror
                     </div>
                 </div>
@@ -41,7 +41,7 @@
                     <div class="col-sm-8">
                         <input type="date" class="form-control @error('tanggal_peminjaman') is-invalid @enderror" id="tanggal_peminjaman" name="tanggal_peminjaman" value="{{ old('tanggal_peminjaman') }}" autofocus>
                         @error('tanggal_peminjaman')
-                            <div id="validationServerUsernameFeedback" class="invalid-feedback">Field Tanggal Peminjaman harus diisi</div>
+                            <div id="validationServerUsernameFeedback" class="invalid-feedback">Field tanggal harus diisi</div>
                         @enderror
                     </div>
                 </div>
@@ -50,12 +50,12 @@
                     <div class="col-sm-8">
                         <input type="date" class="form-control @error('tanggal_kembali') is-invalid @enderror" id="tanggal_kembali" name="tanggal_kembali" value="{{ old('tanggal_kembali') }}" autofocus>
                         @error('tanggal_kembali')
-                            <div id="validationServerUsernameFeedback" class="invalid-feedback">Field Tanggal Kembali diisi</div>
+                            <div id="validationServerUsernameFeedback" class="invalid-feedback">Field tanggal harus diisi</div>
                         @enderror
                     </div>
                 </div>
                 <div class="mb-2">
-                    <button type="submit" class="btn btn-primary float-right">Simpan</button>
+                    <button type="submit" class="btn btn-warning float-right">Edit</button>
                     <a class="btn btn-secondary float-right mr-3" data-toggle="modal" data-target="#modalBackHome">Kembali</a>
                     @include('borrow.backhome-modal')
                 </div>

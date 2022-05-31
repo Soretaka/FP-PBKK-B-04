@@ -74,6 +74,15 @@ Route::group(['prefix' => 'book', 'as' => 'book.'], function(){
             Route::post('/update/{id}', [MemberController::class, 'update'])->name('update-data');
             Route::delete('/delete/{id}', [MemberController::class, 'destroy'])->name('delete-data');
         });
+        Route::group(['prefix' => 'borrow', 'as' => 'borrow.'], function(){
+            Route::get('/', [BorrowController::class, 'index'])->name('index');
+            Route::get('/input-form', [BorrowController::class, 'showInputForm'])->name('input-data');
+            Route::post('/store', [BorrowController::class, 'store'])->name('store-data');
+            Route::get('/detail/{id}', [BorrowController::class, 'detail'])->name('detail-data');
+            Route::get('/edit/{id}', [BorrowController::class, 'showEditForm'])->name('edit-form');
+            Route::post('/update/{id}', [BorrowController::class, 'update'])->name('update-data');
+            Route::delete('/delete/{id}', [BorrowController::class, 'destroy'])->name('delete-data');
+        });
     });
     
     //User

@@ -41,7 +41,7 @@
                 <a class="collapse-item {{ ($title === "Category") ? 'active' : '' }}" href="{{ route('category.index') }}">Kategori Buku</a>
                 <a class="collapse-item {{ ($title === "Book") ? 'active' : '' }}" href="{{ route('book.index') }}">Data Buku</a>
                 <a class="collapse-item {{ ($title === "Member") ? 'active' : '' }}" href="{{ route('member.index') }}">Data Anggota</a>
-                <a class="collapse-item" href="#">Peminjaman</a>
+                <a class="collapse-item {{ ($title === "Borrow") ? 'active' : '' }}" href="{{ route('borrow.index') }}">Peminjaman</a>
                 <a class="collapse-item" href="#">Pengembalian</a>
             </div>
         </div>
