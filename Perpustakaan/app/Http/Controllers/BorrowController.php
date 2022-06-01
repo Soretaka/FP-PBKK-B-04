@@ -12,12 +12,23 @@ use Illuminate\Support\Facades\Auth;
 class BorrowController extends Controller
 {
     public function index() {
+        if(Auth::user()->isAdmin){
         $borrows = Borrow::all();
-
+        dd($borrows);
         return view('borrow.index', [
             "title" => "borrow",
             "borrows" => $borrows
         ]);
+        }else{
+            $borrows = Borrow::where('user_id',Auth::user()->id)->get();
+            // $borrows = DB::table('borrows')->where('user_id',Auth::user()->id)->get();
+            // $borrows = Borrow::all();   
+           // dd($borrows);     
+            return view('user.history',[
+                "title" => "borrow",
+                "borrows" => $borrows
+            ]);
+        }
     }
     // show input form
     public function showInputForm() {

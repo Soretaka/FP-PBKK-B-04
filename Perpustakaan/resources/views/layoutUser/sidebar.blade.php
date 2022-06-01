@@ -39,7 +39,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Pilih Menu:</h6>
                 <a class="collapse-item {{ ($title === "Book") ? 'active' : '' }}" href="{{ route('book.index') }}">Data Buku</a>
-                <a class="collapse-item {{ ($title === "Book") ? 'active' : '' }}" href="#">Peminjaman</a>
+                <a class="collapse-item {{ ($title === "Book") ? 'active' : '' }}" href="{{ route('borrow.index') }}">Peminjaman</a>
             </div>
         </div>
     </li>
