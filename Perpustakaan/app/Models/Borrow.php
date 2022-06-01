@@ -11,9 +11,7 @@ class Borrow extends Model
     protected $table = "Borrows";
     protected $fillable = [
         'user_id',
-        'book_id',
-        'tanggal_peminjaman',
-        'tanggal_kembali'
+        'book_id'
     ];
     public function book() {
         return $this->belongsTo(Book::class);
