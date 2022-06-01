@@ -95,8 +95,7 @@ Route::group(['prefix' => 'book', 'as' => 'book.'], function(){
 
         // borrow
         Route::group(['prefix' => 'borrow', 'as' => 'borrow.'], function(){
-            Route::get('/input-form', [BorrowController::class, 'showInputForm'])->name('input-data');
-            Route::post('/store', [BorrowController::class, 'store'])->name('store-data');
+            Route::get('/', [BorrowController::class, 'index'])->name('index');
         });
     });
     
