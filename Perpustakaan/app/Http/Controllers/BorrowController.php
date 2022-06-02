@@ -14,7 +14,7 @@ class BorrowController extends Controller
     public function index() {
         if(Auth::user()->isAdmin){
         $borrows = Borrow::all();
-        dd($borrows);
+      //  dd($borrows);
         return view('borrow.index', [
             "title" => "borrow",
             "borrows" => $borrows
