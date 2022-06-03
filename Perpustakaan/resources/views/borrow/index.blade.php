@@ -28,10 +28,11 @@
                     <thead>
                         <tr class="text-center">
                             <th>No</th>
-                            <th>Nama</th>
-                            <th>Judul</th>
+                            <th>Nama Siswa</th>
+                            <th>NIS</th>
+                            <th>Judul Buku</th>
+                            <th>ISBN</th>
                             <th>Tanggal Peminjaman</th>
-                            <th>Tanggal Kembali</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -44,9 +45,10 @@
                         <tr>
                             <td>{{ $i }}</td>
                             <td>{{ $borrow->user->name }}</td>
+                            <td>{{ $borrow->user->NIS }}</td>
                             <td>{{ $borrow->book->judul }}</td>
-                            <td>{{ $borrow->tanggal_peminjaman }}</td>
-                            <td>{{ $borrow->tanggal_kembali }}</td>
+                            <td>{{ $borrow->book->isbn }}</td>
+                            <td>{{ $borrow->created_at }}</td>
                             <td>
                                 <a href="{{ route('borrow.detail-data', $borrow->id) }}" class="badge badge-info">detail</a>
                             </td>

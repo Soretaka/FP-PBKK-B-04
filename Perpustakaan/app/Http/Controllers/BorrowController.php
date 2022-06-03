@@ -14,7 +14,7 @@ class BorrowController extends Controller
     public function index() {
         if(Auth::user()->isAdmin){
         $borrows = Borrow::all();
-        dd($borrows);
+      //  dd($borrows);
         return view('borrow.index', [
             "title" => "borrow",
             "borrows" => $borrows
@@ -67,8 +67,6 @@ class BorrowController extends Controller
         $validateData = $request->validate([
             'user_id' => 'required',
             'book_id' => 'required',
-            'tanggal_peminjaman' => 'required',
-            'tanggal_kembali' => 'required'
         ]);
         Borrow::create($validateData);
 
@@ -124,9 +122,7 @@ class BorrowController extends Controller
         $borrow = Borrow::findOrFail($id);
         $validateData = $request->validate([
             'user_id' => 'required',
-            'book_id' => 'required',
-            'tanggal_peminjaman' => 'required',
-            'tanggal_kembali' => 'required'
+            'book_id' => 'required'
         ]);
         
         $borrow->update($validateData);
