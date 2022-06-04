@@ -1,4 +1,4 @@
-@extends(Auth::user()->isAdmin? 'layout.app' : 'layoutUser.app')
+@extends('layoutUser.app')
 
 @section('container')
     <!-- Page Heading -->
@@ -46,11 +46,9 @@
                         </div>
                     </div>
                 @else 
-                    @if(Auth::user()->isAdmin)
                     <div class="mb-2">
                         <a href="{{ route('borrow.return-book', $borrow->id) }}" class="btn btn-warning float-right">Return</a>
                     </div>
-                    @endif
                 @endif
             </div>
         </div>

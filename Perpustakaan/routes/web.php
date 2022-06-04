@@ -86,6 +86,7 @@ Route::group(['middleware' => 'auth'], function() {
         // borrow
         Route::group(['prefix' => 'borrow', 'as' => 'borrow.'], function(){
             Route::get('/', [BorrowController::class, 'index'])->name('index');
+            Route::get('/detail/{id}', [BorrowController::class, 'detail'])->name('detail-data');
         });
     });
     

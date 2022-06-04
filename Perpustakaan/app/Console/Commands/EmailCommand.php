@@ -31,7 +31,7 @@ class EmailCommand extends Command
      */
     public function handle()
     {
-        $borrows=Borrow::where('tanggal_kembali',now()->format('Y-m-d'))
+        $borrows=Borrow::where('must_return_date',now()->format('Y-m-d'))
         ->orderBy('user_id')
         ->get();
         $data =[];
