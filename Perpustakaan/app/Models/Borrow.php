@@ -10,13 +10,12 @@ class Borrow extends Model
     use HasFactory;
     protected $table = "Borrows";
     protected $fillable = [
+        'admin_id',
         'user_id',
-        'book_id'
+        'must_return_date'
     ];
-    public function book() {
-        return $this->belongsTo(Book::class);
-    }
+
     public function user() {
-        return $this->belongsTo(user::class);
+        return $this->belongsTo(User::class);
     }
 }

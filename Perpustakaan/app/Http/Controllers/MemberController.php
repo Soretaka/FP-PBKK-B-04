@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Member;
 use Illuminate\Contracts\Cache\Store;
+use App\Models\Member;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -10,7 +11,7 @@ class MemberController extends Controller
 {
     // index
     public function index() {
-        $members = Member::all();
+        $members = User::where('isAdmin', 0)->get();
 
         return view('member.index', [
             "title" => "Member",
@@ -18,36 +19,9 @@ class MemberController extends Controller
         ]);
     }
 
-    // show input form 
-    public function showInputForm() {
-        return view('member.create', [
-            "title" => "Member Input Form "
-        ]);
-    }
-
-    // store input data
-    public function store(Request $request) {
-        $validateData = $request->validate([
-            'image' => 'required | image | mimes:jpeg,png,jpg | max:2048',
-            'nama' => 'required',
-            'nis' => 'required | max:6',
-            'jenis_kelamin' => 'required',
-            'tempat_lahir' => 'required',
-            'tanggal_lahir' => 'required',
-            'nomor_hp' => 'required| max:12'
-        ]);
-
-        if($request->file('image')) {
-                $validateData['image'] = $request->file('image')->store('member-image');
-        }
-        Member::create($validateData);
-
-        return redirect()->route('member.index')->with('status', 'Data anggota berhasil ditambah!');
-    }
-
     // show detail data
     public function detail($id) {
-        $member = Member::where('id', $id)->first();
+        $member = User::where('id', $id)->first();
 
         return view('member.detail', [
             "title" => "Member Detail",
@@ -57,7 +31,7 @@ class MemberController extends Controller
 
     // show edit form
     public function showEditForm($id) {
-        $member = Member::findOrFail($id);
+        $member = User::findOrFail($id);
 
         return view('member.edit', [
             "title" => "Member Edit Form",
@@ -67,23 +41,16 @@ class MemberController extends Controller
 
     // update data
     public function update(Request $request, $id) {
-        $member = Member::findOrFail($id);
+        $member = User::findOrFail($id);
         $validateData = $request->validate([
-            'image' => 'required | image | mimes:jpeg,png,jpg | max:2048',
-            'nama' => 'required',
-            'nis' => 'required | max:6',
-            'jenis_kelamin' => 'required',
-            'tempat_lahir' => 'required',
-            'tanggal_lahir' => 'required',
-            'nomor_hp' => 'required| max:12'
+            'name' => 'required',
+            'TL' => 'required',
+            'Alamat' => 'required',
+            'JK' => 'required',
+            'NIS',
         ]);
         
-        if($request->file('image')) {
-            if($request->oldImage) {
-                Storage::delete($request->oldImage);
-            }
-            $validateData['image'] = $request->file('image')->store('member-image');
-        }
+        // ddd($validateData);
         $member->update($validateData);
 
         return redirect()->route('member.index')->with('status', 'Data anggota berhasil diedit!');
@@ -91,10 +58,7 @@ class MemberController extends Controller
 
     // delete data
     public function destroy($id) {
-        $member = Member::findOrFail($id);
-        if($member->image) {
-            Storage::delete($member->image);
-        }
+        $member = User::findOrFail($id);
         $member->delete();
 
         return redirect()->route('member.index')->with('status', 'Data anggota berhasil dihapus!');

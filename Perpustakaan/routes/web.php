@@ -7,6 +7,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MemberController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RedirectAuthenticatedUsersController;
+use App\Models\BorrowDetails;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,19 +28,6 @@ Route::get('/', function () {
 
 Route::group(['middleware' => 'auth'], function() {
     Route::get("/redirectAuthenticatedUsers", [RedirectAuthenticatedUsersController::class, "home"]);
-
-// book
-Route::group(['prefix' => 'book', 'as' => 'book.'], function(){
-    Route::get('/', [BookController::class, 'index'])->name('index');
-    Route::get('/input-form', [BookController::class, 'showInputForm'])->name('input-data');
-    Route::post('/store', [BookController::class, 'store'])->name('store-data');
-    Route::get('/detail/{id}', [BookController::class, 'detail'])->name('detail-data');
-    Route::get('/edit/{id}', [BookController::class, 'showEditForm'])->name('edit-form');
-    Route::post('/update/{id}', [BookController::class, 'update'])->name('update-data');
-    Route::delete('/delete/{id}', [BookController::class, 'destroy'])->name('delete-data');
-});
-
-// member
 
     //Admin
     Route::group(['middleware' => 'checkRole:admin'], function() {
@@ -65,27 +54,28 @@ Route::group(['prefix' => 'book', 'as' => 'book.'], function(){
             Route::delete('/delete/{id}', [BookController::class, 'destroy'])->name('delete-data');
         });
         
+        // Member
         Route::group(['prefix' => 'member', 'as' => 'member.'], function(){
             Route::get('/', [MemberController::class, 'index'])->name('index');
-            Route::get('/input-form', [MemberController::class, 'showInputForm'])->name('input-data');
-            Route::post('/store', [MemberController::class, 'store'])->name('store-data');
+            // Route::get('/input-form', [MemberController::class, 'showInputForm'])->name('input-data');
+            // Route::post('/store', [MemberController::class, 'store'])->name('store-data');
             Route::get('/detail/{id}', [MemberController::class, 'detail'])->name('detail-data');
             Route::get('/edit/{id}', [MemberController::class, 'showEditForm'])->name('edit-form');
             Route::post('/update/{id}', [MemberController::class, 'update'])->name('update-data');
             Route::delete('/delete/{id}', [MemberController::class, 'destroy'])->name('delete-data');
         });
+
+        // Borrow
         Route::group(['prefix' => 'borrow', 'as' => 'borrow.'], function(){
             Route::get('/', [BorrowController::class, 'index'])->name('index');
             Route::get('/input-form', [BorrowController::class, 'showInputForm'])->name('input-data');
             Route::post('/store', [BorrowController::class, 'store'])->name('store-data');
             Route::get('/detail/{id}', [BorrowController::class, 'detail'])->name('detail-data');
-            Route::get('/edit/{id}', [BorrowController::class, 'showEditForm'])->name('edit-form');
-            Route::post('/update/{id}', [BorrowController::class, 'update'])->name('update-data');
-            Route::delete('/delete/{id}', [BorrowController::class, 'destroy'])->name('delete-data');
+            Route::get('/return/{id}', [BorrowController::class, 'returnBook'])->name('return-book');
         });
     });
     
-    //User
+    // User
     Route::group(['middleware' => 'checkRole:user'], function() {
         Route::get('/userDashboard', [DashboardController::class, 'indexUser'])->name('dashboard-index-user');
         Route::group(['prefix' => 'book', 'as' => 'book.'], function(){
@@ -99,15 +89,10 @@ Route::group(['prefix' => 'book', 'as' => 'book.'], function(){
         });
     });
     
-
-    //Guest
+    // Guest
     Route::group(['middleware' => 'checkRole:guest'], function() {
        // Route::get('/', '')->name('');
     });
 });
-
-
-
-
  
 require __DIR__.'/auth.php';

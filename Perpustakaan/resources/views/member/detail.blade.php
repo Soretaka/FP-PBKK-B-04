@@ -6,45 +6,34 @@
 
     <div class="card shadow mb-4">
         <div class="card-body">
-            <div class="form-group mt-3">
-                @if ($member->image)
-                    <img src="{{ asset('storage/' . $member->image) }}" alt="{{ $member->nama }}" class="rounded mx-auto d-block top" style="width: 5cm">
-                @endif
-            </div>
             <div class="form-group row">
                 <label for="nama" class="col-sm-2 col-form-label">Nama</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" id="nama" name="nama" value="{{ $member->nama }}" readonly>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="nis" class="col-sm-2 col-form-label">NIS</label>
-                <div class="col-sm-3">
-                    <input type="text" class="form-control" id="nis" name="nis" value="{{ $member->nis }}" readonly>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="jenis_kelamin" class="col-sm-2 col-form-label">Jenis Kelamin</label>
-                <div class="col-sm-3">
-                    <input type="text" class="form-control" id="jenis_kelamin" name="jenis_kelamin" value="{{ $member->jenis_kelamin }}" readonly>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="tempat_lahir" class="col-sm-2 col-form-label">Tempat Lahir</label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control" id="tempat_lahir" name="tempat_lahir" value="{{ $member->tempat_lahir }}" readonly>
+                    <input type="text" class="form-control" id="nama" name="nama" value="{{ $member->name }}" readonly>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="tanggal_lahir" class="col-sm-2 col-form-label">Tanggal Lahir</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" id="tanggal_lahir" name="tanggal_lahir" value="{{ $member->tanggal_lahir }}" readonly>
+                    <input type="text" class="form-control" id="tanggal_lahir" name="tanggal_lahir" value="{{ $member->TL }}" readonly>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="nomor_hp" class="col-sm-2 col-form-label">No Handphone</label>
+                <label for="Alamat" class="col-sm-2 col-form-label">Alamat</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" id="nomor_hp" name="nomor_hp" value="{{ $member->nomor_hp }}" readonly>
+                    <input type="text" class="form-control" id="Alamat" name="Alamat" value="{{ $member->Alamat }}" readonly>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="JK" class="col-sm-2 col-form-label">Jenis Kelamin</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" id="JK" name="JK" value="{{ $member->JK }}" readonly>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="NIS" class="col-sm-2 col-form-label">NIS</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" id="NIS" name="NIS" value="{{ $member->NIS }}" readonly>
                 </div>
             </div>
             <div class="mb-2">

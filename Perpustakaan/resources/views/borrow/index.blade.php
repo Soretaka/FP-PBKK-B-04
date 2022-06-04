@@ -29,26 +29,26 @@
                         <tr class="text-center">
                             <th>No</th>
                             <th>Nama Siswa</th>
-                            <th>NIS</th>
-                            <th>Judul Buku</th>
-                            <th>ISBN</th>
+                            <th>Nama Admin</th>
                             <th>Tanggal Peminjaman</th>
-                            <th>Aksi</th>
+                            <th>Tanggal Harus Kembali</th>
+                            <th>Detai Peminjaman</th>
                         </tr>
                     </thead>
-                    
                     @php
                         $i = 1;
                     @endphp
                     @foreach ($borrows as $borrow)
+                    <?php
+                        $admin = \App\Models\User::find($borrow->admin_id)->first();
+                    ?>
                     <tbody>
                         <tr>
                             <td>{{ $i }}</td>
                             <td>{{ $borrow->user->name }}</td>
-                            <td>{{ $borrow->user->NIS }}</td>
-                            <td>{{ $borrow->book->judul }}</td>
-                            <td>{{ $borrow->book->isbn }}</td>
+                            <td>{{ $admin->name }}</td>
                             <td>{{ $borrow->created_at }}</td>
+                            <td>{{ $borrow->must_return_date }}</td>
                             <td>
                                 <a href="{{ route('borrow.detail-data', $borrow->id) }}" class="badge badge-info">detail</a>
                             </td>

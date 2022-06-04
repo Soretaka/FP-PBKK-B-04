@@ -12,14 +12,6 @@
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <a href="{{ route('member.input-data') }}" class="btn btn-primary btn-icon-split btn-sm">
-                <span class="icon text-grey-50">
-                    <i class="fas fa-plus"></i>
-                </span>
-                <span class="text">Tambah data anggota</span>
-            </a>
-        </div>
         
         <div class="card-body">
             <div class="table-responsive">
@@ -29,7 +21,7 @@
                             <th>No</th>
                             <th>Nama</th>
                             <th>NIS</th>
-                            <th>No Handphone</th>
+                            <th>Email</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -40,9 +32,9 @@
                     <tbody>
                         <tr>
                             <td>{{ $i }}</td>
-                            <td>{{ $member->nama }}</td>
-                            <td>{{ $member->nis }}</td>
-                            <td>{{ $member->nomor_hp }}</td>
+                            <td>{{ $member->name }}</td>
+                            <td>{{ $member->NIS }}</td>
+                            <td>{{ $member->email }}</td>
                             <td>
                                 <a href="{{ route('member.detail-data', $member->id) }}" class="badge badge-info">detail</a>
                             </td>

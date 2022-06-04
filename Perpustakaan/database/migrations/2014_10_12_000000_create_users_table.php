@@ -22,8 +22,8 @@ return new class extends Migration
             $table->string('password');
             $table->string('TL'); 
             $table->string('Alamat');
-            $table->string('JK'); 
-            $table->string('NIS');
+            $table->string('JK');
+            $table->string('NIS')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

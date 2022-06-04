@@ -4,76 +4,71 @@ namespace App\Http\Controllers;
 
 use App\Models\Borrow;
 use App\Models\Book;
-use App\Models\user;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\BorrowDetails;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-class BorrowController extends Controller
-{
+
+class BorrowController extends Controller {
+    // index
     public function index() {
-        if(Auth::user()->isAdmin){
-        $borrows = Borrow::all();
-      //  dd($borrows);
-        return view('borrow.index', [
-            "title" => "borrow",
-            "borrows" => $borrows
-        ]);
-        }else{
-            $borrows = Borrow::where('user_id',Auth::user()->id)->get();
-            // $borrows = DB::table('borrows')->where('user_id',Auth::user()->id)->get();
-            // $borrows = Borrow::all();   
-           // dd($borrows);     
+        if(Auth::user()->isAdmin) {
+            $borrows = Borrow::all();
+            return view('borrow.index', [
+                "title" => "borrow",
+                "borrows" => $borrows
+            ]);
+        }
+        else {
+            $borrows = Borrow::where('user_id',Auth::user()->id)->get();     
             return view('user.history',[
                 "title" => "borrow",
                 "borrows" => $borrows
             ]);
         }
     }
+
     // show input form
     public function showInputForm() {
-        $books = Book::all();
-        $users = user::all();
+        $books = Book::where('status', 'Tersedia')->get();
+        $users = User::all();
         return view('borrow.create', [
             "title" => "Borrow Input Form",
             "books" => $books,
-            "users" => $users
+            "users" => $users,
         ]);
     }
 
     // store data
     public function store(Request $request) {
-        // $user_id = Auth::user()->id;
-        // $books = Book::all();
-        // // return $user_id;
-        // // return $request->post();
-        // $borrow= ([
-        //     "user_id" => $user_id,
-        //     "book_id" => $books->id,
-        //     "tanggal_peminjaman" => $request->tanggal_peminjaman,
-        //     "tanggal_kembali" => $request->tanggal_kembali
-        // ]);
-        // return $borrow;
-        // $book = DB::table('books')->where('judul',$request->judul_buku)->first();
-        // dd($book);
-        // $validateData = $request->validate([
-        //     "tanggal_peminjaman" => 'required',
-        //     "tanggal_kembali" => 'required'
-        // ]);
-        //  dd($borrow);
-        //  Borrow::create($borrow);
-        
-        // return redirect()->route('borrow.index')->with('status', 'Formulir buku berhasil dikirim!');
-        $validateData = $request->validate([
-            'user_id' => 'required',
-            'book_id' => 'required',
+        $borrow = Borrow::create([
+            'user_id' => $request->user_id,
+            'admin_id' => auth()->user()->id,
+            'must_return_date' => Carbon::now()->addDays(7),
         ]);
-        Borrow::create($validateData);
 
+        foreach($request->book_id as $id) {
+            if($id){
+                BorrowDetails::create([
+                    'borrow_id' => $borrow->id,
+                    'book_id' => $id,
+                ]);
+
+                $book = Book::findOrFail($id);
+                $book->status = 'Tidak tersedia';
+                $book->save();
+            }
+        }
+        
         return redirect()->route('borrow.index')->with('status', 'Peminjaman buku berhasil ditambah!');
     }
+
+    // show each borrow detail
     public function detail($id) {
-        $borrows = Borrow::where('id', $id)->first();
+        $borrows = BorrowDetails::where('borrow_id', $id)->get();
     
         return view('borrow.detail', [
             "title" => "Borrow Detail",
@@ -81,64 +76,24 @@ class BorrowController extends Controller
         ]);
     }
 
-    // show edit form 
-    public function showEditForm($id) {
-        $borrows = Borrow::where('id', $id)->first();
-        $books = Book::all();
-        $users = user::all();
+    // return book
+    public function returnBook($id) {
+        $borrow_details = BorrowDetails::findOrFail($id);
+        $book = $borrow_details->book;
+        $book->status = 'Tersedia';
+        $book->save();
 
-        return view('borrow.edit', [
-            "title" => "borrow Edit Form",
-            "borrows" => $borrows,
-            "books" => $books,
-            "users" => $users
-        ]);
+        $date = Carbon::parse($borrow_details->borrow->must_return_date);
+        $now = Carbon::now();
+
+        $diff = $now->diffInDays($date);
+        $borrow_details->return_date = $now;
+        if($date < $now){
+            $denda = $diff * 1000;
+            $borrow_details->denda = $denda;
+        }    
+        $borrow_details->save();
+
+        return redirect()->route('borrow.detail-data', ['id' => $borrow_details->borrow->id]);
     }
-
-    // store edit data
-    public function update(Request $request, $id) {
-        // $user_id = Auth::user()->id;
-        // $books = Book::all();
-        // // return $user_id;
-        // // return $request->post();
-        // $borrows = Borrow::findOrFail($id);
-        // $borrow= ([
-        //     "user_id" => $user_id,
-        //     "book_id" => $books->id,
-        //     "tanggal_peminjaman" => $request->tanggal_peminjaman,
-        //     "tanggal_kembali" => $request->tanggal_kembali
-        // ]);
-        // return $borrow;
-        // $book = DB::table('books')->where('judul',$request->judul_buku)->first();
-        // dd($book);
-        // $validateData = $request->validate([
-        //     "tanggal_peminjaman" => 'required',
-        //     "tanggal_kembali" => 'required'
-        // ]);
-        //  dd($borrow);
-        // $borrows->update($borrow);
-        
-        // return redirect()->route('borrow.index')->with('status', 'Formulir buku berhasil dikirim!');
-        $borrow = Borrow::findOrFail($id);
-        $validateData = $request->validate([
-            'user_id' => 'required',
-            'book_id' => 'required'
-        ]);
-        
-        $borrow->update($validateData);
-        
-        return redirect()->route('borrow.index')->with('status', 'Data peminjaman buku berhasil diedit!');
-    
-    }
-
-    // delete
-    public function destroy($id) {
-        $borrow = Borrow::findOrFail($id);
-        
-        $borrow->delete();
-
-        return redirect()->route('borrow.index')->with('status', 'Data peminjaman buku berhasil dihapus!');
-    }
-
 }
-

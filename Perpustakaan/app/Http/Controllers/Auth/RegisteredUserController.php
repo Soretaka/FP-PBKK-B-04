@@ -40,15 +40,14 @@ class RegisteredUserController extends Controller
             'TL' => ['required'],
             'Alamat' => ['required'],
             'JK' => ['required'],
-            'NIS' => ['required'],
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-           'password' => Hash::make($request->password),
+            'password' => Hash::make($request->password),
         //    'password' => $request->password,
-           'TL' => $request->TL,
+            'TL' => $request->TL,
             'Alamat' => $request->Alamat,
             'JK' => $request->JK,
             'NIS' => $request->NIS,

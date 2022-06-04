@@ -62,13 +62,19 @@
             <div class="mt-4">
                 <x-label for="JK" :value="__('Jenis Kelamin')" />
 
-                <x-input id="JK" class="block mt-1 w-full" type="text" name="JK" :value="old('JK')" required autofocus />
+                <div>
+                    <select class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 block mt-1 w-full" id="JK" name="JK" required autofocus>
+                        <option value="">-Pilih Jenis Kelamin-</option>
+                        <option value="Laki-laki">Laki-laki</option>
+                        <option value="Perempuan">Perempuan</option>
+                    </select>
+                </div>
             </div>
             <!-- NIS -->
             <div class="mt-4">
                 <x-label for="NIS" :value="__('NIS')" />
 
-                <x-input id="NIS" class="block mt-1 w-full" type="text" name="NIS" :value="old('NIS')" required autofocus />
+                <x-input id="NIS" class="block mt-1 w-full" type="text" name="NIS" :value="old('NIS')" autofocus />
             </div>
 
             <div class="flex items-center justify-end mt-4">
