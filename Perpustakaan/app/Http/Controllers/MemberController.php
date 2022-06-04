@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Contracts\Cache\Store;
-use App\Models\Member;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -44,13 +43,12 @@ class MemberController extends Controller
         $member = User::findOrFail($id);
         $validateData = $request->validate([
             'name' => 'required',
+            'email' => 'required | email',
             'TL' => 'required',
             'Alamat' => 'required',
             'JK' => 'required',
-            'NIS',
         ]);
         
-        // ddd($validateData);
         $member->update($validateData);
 
         return redirect()->route('member.index')->with('status', 'Data anggota berhasil diedit!');
