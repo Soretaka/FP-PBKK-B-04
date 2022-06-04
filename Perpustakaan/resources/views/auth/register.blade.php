@@ -77,11 +77,13 @@
                 <x-input id="NIS" class="block mt-1 w-full" type="text" name="NIS" :value="old('NIS')" autofocus />
             </div>
 
-            <div class="flex items-center justify-end mt-4">
-                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
-                    {{ __('Already registered?') }}
-                </a>
+            <div class="block mt-4">
+                <label for="remember_me" class="inline-flex items-center">
+                    <span class="text-sm text-gray-600 hover:text-gray-900">Sudah punya akun? <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">{{ __('Login') }}</a></span>
+                </label>
+            </div>
 
+            <div class="flex items-center justify-end mt-4">
                 <x-button class="ml-4">
                     {{ __('Register') }}
                 </x-button>
