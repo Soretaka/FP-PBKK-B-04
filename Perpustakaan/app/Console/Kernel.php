@@ -4,6 +4,8 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Symfony\Component\Mailer\Messenger\SendEmailMessage;
+use App\Console\Commands\EmailCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -13,9 +15,13 @@ class Kernel extends ConsoleKernel
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
+    protected $commands=[
+        EmailCommand::class,
+    ];
+    
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        //
     }
 
     /**
