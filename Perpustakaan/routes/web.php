@@ -78,6 +78,7 @@ Route::group(['middleware' => 'auth'], function() {
     // User
     Route::group(['middleware' => 'checkRole:user'], function() {
         Route::get('/userDashboard', [DashboardController::class, 'indexUser'])->name('dashboard-index-user');
+        //book
         Route::group(['prefix' => 'book', 'as' => 'book.'], function(){
             Route::get('/', [BookController::class, 'index'])->name('index');
             Route:: get('/detail/{id}', [BookController::class, 'detail'])->name('detail-data');
