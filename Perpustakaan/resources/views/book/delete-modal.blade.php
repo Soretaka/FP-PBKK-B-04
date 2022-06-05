@@ -8,7 +8,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">Anda yakin akan menghapus buku <b>{{ $book->judul }}</b>?</div>
+            <div class="modal-body">{{ __('book.delete') }} <b>{{ $book->judul }}</b>?</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">{{ __('Batal') }}</button>
                 <form action="{{ route('book.delete-data', $book->id) }}" method="POST">
