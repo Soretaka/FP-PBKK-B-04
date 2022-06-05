@@ -2,7 +2,7 @@
 
 @section('container')
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Detail Data Buku</h1>
+    <h1 class="h3 mb-2 text-gray-800">{{ __('book.detail') }}</h1>
 
     <div class="card shadow mb-4">
         <div class="card-body">
@@ -12,25 +12,25 @@
                 @endif
             </div>
             <div class="form-group row">
-                <label for="judul" class="col-sm-2 col-form-label">Judul Buku</label>
+                <label for="judul" class="col-sm-2 col-form-label">{{ __('book.title') }}</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" id="judul" name="judul" value="{{ $book->judul }}" readonly>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="penulis" class="col-sm-2 col-form-label">Penulis</label>
+                <label for="penulis" class="col-sm-2 col-form-label">{{ __('book.author') }}</label>
                 <div class="col-sm-5">
                     <input type="text" class="form-control" id="penulis" name="penulis" value="{{ $book->penulis }}" readonly>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="penerbit" class="col-sm-2 col-form-label">Penerbit</label>
+                <label for="penerbit" class="col-sm-2 col-form-label">{{ __('book.publisher') }}</label>
                 <div class="col-sm-5">
                     <input type="text" class="form-control" id="penerbit" name="penerbit" value="{{ $book->penerbit }}" readonly>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="tahun" class="col-sm-2 col-form-label">Tahun Terbit</label>
+                <label for="tahun" class="col-sm-2 col-form-label">{{ __('book.date') }}</label>
                 <div class="col-sm-2">
                     <input type="text" class="form-control" id="tahun" name="tahun" value="{{ $book->tahun_terbit }}" readonly>
                 </div>
@@ -48,7 +48,7 @@
                 </div>
             </div>
             <div class="form-group row mb-4">
-                <label for="kategori_id" class="col-sm-2 col-form-label">Kategori</label>
+                <label for="kategori_id" class="col-sm-2 col-form-label">{{ __('book.category') }}</label>
                 <div class="col-sm-4">
                     <input type="text" class="form-control" id="kategori" name="kategori" value="{{ $book->category->kategori_buku }}" readonly>
                 </div>
@@ -62,7 +62,7 @@
                         <i class="fas fa-trash"></i>
                     </a>
                 @endif
-                    <a href="{{ route('book.index') }}" class="btn btn-secondary float-left">Kembali</a>
+                    <a href="{{ route('book.index') }}" class="btn btn-secondary float-left">{{ __('layout.back') }}</a>
                 @include('book.delete-modal')
             </div>
         </div>

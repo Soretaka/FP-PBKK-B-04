@@ -1,0 +1,35 @@
+<?php
+
+return[
+    'back_home' => 'Are you sure you want to return to the main page?',
+    'add_book' => 'Add new book',
+    'image' => 'Select Image',
+    'format' => 'Format must be jpeg,jpg,png max 2 MB',
+    'title' => 'Book Title',
+    'title_field' => 'Title field is required',
+    'author' => 'Author',
+    'author_field' => 'Author field is required',
+    'publisher' => 'Publisher',
+    'publisher_field' => 'Publisher field is required',
+    'date' => 'Publish Date',
+    'year' => '-Yeay-',
+    'date_field' => 'Publish date field is required',
+    'isbn_field'=> 'ISBN field is required',
+    'status' => [
+        'select' => '-Select Status-',
+        'available' => 'available',
+        'not_available' => 'not available',
+        'field' => 'Status field is required',
+    ],
+    'category'=> 'Category',
+    'select_category'=> '-Select Category-',
+    'catagory_field'=> 'Category field is required',
+    'save'=> 'Save',
+    'back'=> 'Back',
+    'delete'=> 'Are you sure you want to delete category',
+    'detail'=> 'Book detail',
+    'edit' => 'Edit books',
+    'borrow'=> 'Borrow books',
+    'action'=> 'Action',
+    'book_data'=> 'Book data'
+];

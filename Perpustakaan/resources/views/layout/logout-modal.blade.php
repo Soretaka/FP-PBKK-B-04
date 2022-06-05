@@ -4,12 +4,13 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+                <h5 class="modal-title" id="exampleModalLabel">{{__('layout.ready_to_leave')}}</h5>
+
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <div class="modal-body">Apakah Anda yakin akan keluar?</div>
+            <div class="modal-body">{{__('layout.select_logout')}}</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
             

@@ -1,7 +1,7 @@
 @extends(Auth::user()->isAdmin? 'layout.app' : 'layoutUser.app')
 @section('container')
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-grey-800">Data Buku</h1>
+    <h1 class="h3 mb-2 text-grey-800">{{ __('book.book_data') }}</h1>
 
     @if (session('status'))
         <div class="alert alert-success">
@@ -17,7 +17,7 @@
                 <span class="icon text-grey-50">
                     <i class="fas fa-plus"></i>
                 </span>
-                <span class="text">Tambah data buku</span>
+                <span class="text">{{ __('book.add_book') }}</span>
             </a>
         </div>
     @endif
@@ -28,7 +28,7 @@
                 <span class="icon text-grey-50">
                     <i class="fas fa-plus"></i>
                 </span>
-                <span class="text">Pinjam Buku</span>
+                <span class="text">{{ __('book.borrow') }}</span>
             </a>
         </div>   
     @endif
@@ -38,11 +38,11 @@
                     <thead>
                         <tr class="text-center">
                             <th>No</th>
-                            <th>Judul</th>
-                            <th>Penulis</th>
-                            <th>Penerbit</th>
+                            <th>{{ __('book.title') }}</th>
+                            <th>{{ __('book.author') }}</th>
+                            <th>{{ __('book.publisher') }}</th>
                             <th>Status</th>
-                            <th>Aksi</th>
+                            <th>{{ __('book.action') }}</th>
                         </tr>
                     </thead>
                     @php
