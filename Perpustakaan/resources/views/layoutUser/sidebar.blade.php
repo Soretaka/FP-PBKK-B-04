@@ -16,7 +16,7 @@
     <li class="nav-item {{ ($title === "Dashboard") ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('dashboard-index-user') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Buku Teratas</span></a>
+            <span>{{__('layout.trend')}}</span></a>
     </li>
 
     <!-- Divider -->
@@ -38,8 +38,8 @@
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">{{__('layout.profile')}}:</h6>
-                <a class="collapse-item {{ ($title === "Book") ? 'active' : '' }}" href="{{ route('book.index') }}">Data Buku</a>
-                <a class="collapse-item {{ ($title === "Book") ? 'active' : '' }}" href="{{ route('borrow.index') }}">Peminjaman</a>
+                <a class="collapse-item {{ ($title === "Book") ? 'active' : '' }}" href="{{ route('book.index') }}">{{__('layout.book')}}</a>
+                <a class="collapse-item {{ ($title === "Book") ? 'active' : '' }}" href="{{ route('borrow.index') }}">{{__('layout.borrow')}}</a>
             </div>
         </div>
     </li>

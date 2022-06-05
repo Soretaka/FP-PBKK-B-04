@@ -2,7 +2,7 @@
 
 @section('container')
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Profile</h1>
+    <h1 class="h3 mb-2 text-gray-800">{{__('admin.profile')}}</h1>
 
     @if (session('status'))
         <div class="alert alert-success">
@@ -13,7 +13,7 @@
     <div class="card shadow mb-4">
         <div class="card-body">
             <div class="form-group row">
-                <label for="name" class="col-sm-2 col-form-label">Name</label>
+                <label for="name" class="col-sm-2 col-form-label">{{__('admin.name')}}</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" id="name" name="name" value="{{ auth()->user()->name }}" readonly>
                 </div>
@@ -25,19 +25,19 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="TL" class="col-sm-2 col-form-label">Tanggal Lahir</label>
+                <label for="TL" class="col-sm-2 col-form-label">{{__('admin.tanggal_lahir')}}</label>
                 <div class="col-sm-3">
                     <input type="text" class="form-control" id="TL" name="TL" value="{{ auth()->user()->TL }}" readonly>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="Alamat" class="col-sm-2 col-form-label">Alamat</label>
+                <label for="Alamat" class="col-sm-2 col-form-label">{{__('admin.address')}}</label>
                 <div class="col-sm-4">
                     <input type="text" class="form-control" id="Alamat" name="Alamat" value="{{ auth()->user()->Alamat }}" readonly>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="JK" class="col-sm-2 col-form-label">Jenis Kelamin</label>
+                <label for="JK" class="col-sm-2 col-form-label">{{__('admin.gender.gender')}}</label>
                 <div class="col-sm-3">
                     <input type="text" class="form-control" id="JK" name="JK" value="{{ auth()->user()->JK }}" readonly>
                 </div>

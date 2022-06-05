@@ -2,36 +2,36 @@
 
 @section('container')
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Detail Data Anggota</h1>
+    <h1 class="h3 mb-2 text-gray-800">{{ __('member.detail') }}</h1>
 
     <div class="card shadow mb-4">
         <div class="card-body">
             <div class="form-group row">
-                <label for="Name" class="col-sm-2 col-form-label">Nama</label>
+                <label for="Name" class="col-sm-2 col-form-label">{{ __('member.name') }}</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" id="Name" name="Name" value="{{ $member->name }}" readonly>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="email" class="col-sm-2 col-form-label">email</label>
+                <label for="email" class="col-sm-2 col-form-label">Email</label>
                 <div class="col-sm-6">
                     <input type="text" class="form-control" id="email" name="email" value="{{ $member->email }}" readonly>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="TL" class="col-sm-2 col-form-label">Tanggal Lahir</label>
+                <label for="TL" class="col-sm-2 col-form-label">{{ __('member.tanggal_lahir') }}</label>
                 <div class="col-sm-3">
                     <input type="text" class="form-control" id="TL" name="TL" value="{{ $member->TL }}" readonly>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="Alamat" class="col-sm-2 col-form-label">Alamat</label>
+                <label for="Alamat" class="col-sm-2 col-form-label">{{ __('member.address') }}</label>
                 <div class="col-sm-4">
                     <input type="text" class="form-control" id="Alamat" name="Alamat" value="{{ $member->Alamat }}" readonly>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="JK" class="col-sm-2 col-form-label">Jenis Kelamin</label>
+                <label for="JK" class="col-sm-2 col-form-label">{{ __('member.gender.gender') }}</label>
                 <div class="col-sm-3">
                     <input type="text" class="form-control" id="JK" name="JK" value="{{ $member->JK }}" readonly>
                 </div>
@@ -49,7 +49,7 @@
                 <a class="btn btn-danger float-left mr-2" data-toggle="modal" data-target="#modalDelete-{{ $member->id }}">
                     <i class="fas fa-trash"></i>
                 </a>
-                <a href="{{ route('member.index') }}" class="btn btn-secondary float-left">Kembali</a>
+                <a href="{{ route('member.index') }}" class="btn btn-secondary float-left">{{ __('member.back') }}</a>
                 @include('member.delete-modal')
             </div>
         </div>

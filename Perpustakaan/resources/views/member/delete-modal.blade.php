@@ -8,7 +8,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">Anda yakin akan menghapus <b>{{ $member->nama }}</b> sebagai anggota?</div>
+            <div class="modal-body">{{ __('member.delete') }} <b>{{ $member->nama }}</b>{{ __('member.as') }}</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">{{ __('Batal') }}</button>
                 <form action="{{ route('member.delete-data', $member->id) }}" method="POST">

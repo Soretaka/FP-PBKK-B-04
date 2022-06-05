@@ -31,7 +31,7 @@
                             <th>{{ __('borrow.siswa') }}</th>
                             <th>{{ __('borrow.admin') }}</th>
                             <th>{{ __('borrow.tgl_pinjam') }}</th>
-                            <th>{{ __('borrow.thl_hrs_kembali') }}</th>
+                            <th>{{ __('borrow.tgl_hrs_kembali') }}</th>
                             <th>{{ __('borrow.detail') }}</th>
                         </tr>
                     </thead>

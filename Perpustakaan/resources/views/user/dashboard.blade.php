@@ -2,7 +2,7 @@
 
 @section('container')
     <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800">Buku Teratas</h1>
+        <h1 class="h3 mb-2 text-gray-800">{{ __('user.trend') }}</h1>
         <div class="card shadow mb-4">
             <div class="card-body container">
                     <div class="row g-5">
@@ -17,11 +17,11 @@
                                 @endif
                                 
                                 <div class = "font-weight-bold">
-                                    peringkat : {{ $i }}
-                                    <br>judul buku: {{ $book->book->judul }}
+                                    {{ __('user.rank') }} : {{ $i }}
+                                    <br>{{ __('user.title') }}: {{ $book->book->judul }}
                                 </div>
-                                genre buku: {{ $book->book->category->kategori_buku }}
-                                <br>penulis buku : {{ $book->book->penulis }}
+                                {{ __('user.genre') }}: {{ $book->book->category->kategori_buku }}
+                                <br>{{ __('user.author') }} : {{ $book->book->penulis }}
                                 @if ($book->status == "Tidak tersedia")
                                 <p class="text-danger">{{ $book->book->status }} </p>
                                 @endif

@@ -11,5 +11,11 @@ return [
     'logout'=>'Keluar',
     'ready_to_leave' => 'Siap untuk Meninggalkan?',
     'select_logout' => 'Pilih "Keluar" di bawah jika Anda siap untuk mengakhiri sesi Anda saat ini.',
-    'logged' => 'Anda masuk!'
+    'logged' => 'Anda masuk!',
+    'cancel' => 'Batal',
+    'category' => 'Kategori Buku',
+    'book' => 'Data Buku',
+    'member' => 'Data Anggota',
+    'borrow' => 'Peminjaman',
+    'trend' => 'Buku Teratas'
 ];

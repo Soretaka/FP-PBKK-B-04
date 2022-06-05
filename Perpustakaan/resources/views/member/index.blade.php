@@ -2,7 +2,7 @@
 
 @section('container')
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-grey-800">Data Anggota</h1>
+    <h1 class="h3 mb-2 text-grey-800">{{ __('member.data') }}</h1>
 
     @if (session('status'))
         <div class="alert alert-success">
@@ -19,10 +19,10 @@
                     <thead>
                         <tr class="text-center">
                             <th>No</th>
-                            <th>Nama</th>
+                            <th>{{ __('member.name') }}</th>
                             <th>NIS</th>
                             <th>Email</th>
-                            <th>Aksi</th>
+                            <th>{{ __('member.action') }}</th>
                         </tr>
                     </thead>
                     @php
