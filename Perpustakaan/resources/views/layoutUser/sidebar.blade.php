@@ -48,14 +48,14 @@
     <hr class="sidebar-divider">
 
     <!-- Nav Item - Pengaturan Akun -->
-    <li class="nav-item">
+    {{-- <li class="nav-item">
         <a class="nav-link" href="#">
             <i class="fas fa-fw fa-cog"></i>
             <span>{{__('layout.settings')}}</span></a>
-    </li>
+    </li> --}}
 
     <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
+    {{-- <hr class="sidebar-divider d-none d-md-block"> --}}
 
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">
