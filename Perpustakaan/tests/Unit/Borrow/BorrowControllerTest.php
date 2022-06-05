@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Borrow;
 
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class BorrowControllerTest extends TestCase
 {
