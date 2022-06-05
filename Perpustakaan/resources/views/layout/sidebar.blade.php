@@ -32,12 +32,12 @@
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#menu"
             aria-expanded="true" aria-controls="menu">
             <i class="fas fa-fw fa-folder"></i>
-            <span>Menu Utama</span>
+            <span>{{__('sidebar.menu')}}</span>
         </a>
         <div id="menu" class="collapse" aria-labelledby="headingUtilities"
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Pilih Menu:</h6>
+                <h6 class="collapse-header">{{__('sidebar.select')}}:</h6>
                 <a class="collapse-item {{ ($title === "Category") ? 'active' : '' }}" href="{{ route('category.index') }}">Kategori Buku</a>
                 <a class="collapse-item {{ ($title === "Book") ? 'active' : '' }}" href="{{ route('book.index') }}">Data Buku</a>
                 <a class="collapse-item {{ ($title === "Member") ? 'active' : '' }}" href="{{ route('member.index') }}">Data Anggota</a>
@@ -53,7 +53,7 @@
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.profile', auth()->user()->id) }}">
             <i class="fas fa-fw fa-cog"></i>
-            <span>Pengaturan Akun</span></a>
+            <span>{{__('sidebar.settings')}}</span></a>
     </li>
 
     <!-- Divider -->

@@ -102,6 +102,9 @@ Route::group(['middleware' => 'auth'], function() {
     Route::group(['middleware' => 'checkRole:guest'], function() {
        // Route::get('/', '')->name('');
     });
+    
+    Route::get('/form/{locale}', 'App\Http\Controllers\LocalizationController@index');
+
 });
  
 require __DIR__.'/auth.php';
