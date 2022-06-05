@@ -9,11 +9,11 @@
 <script src="/style/js/sb-admin-2.min.js"></script>
 
 <!-- Page level plugins -->
-{{-- <script src="/style/vendor/chart.js/Chart.min.js"></script> --}}
+<script src="/style/vendor/chart.js/Chart.min.js"></script>
 
 <!-- Page level custom scripts -->
-{{-- <script src="/style/js/demo/chart-area-demo.js"></script>
-<script src="/style/js/demo/chart-pie-demo.js"></script> --}}
+<script src="/style/js/demo/chart-area-demo.js"></script>
+<script src="/style/js/demo/chart-pie-demo.js"></script>
 
 <!-- Datepicker -->
 <script src="/style/vendor/air-datepicker/dist/js/datepicker.js"></script>

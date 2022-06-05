@@ -6,17 +6,23 @@ use App\Models\Category;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\Auth;
 class BookController extends Controller
 {
     // index
     public function index() {
         $books = Book::all();
-
+        if(Auth::user()->isAdmin){
         return view('book.index', [
             "title" => "Book",
             "books" => $books
         ]);
+        }else{
+            return view('user.buku',[
+                "title" => "Book",
+                "books" => $books
+            ]);
+        }
     }
 
     // show input form 

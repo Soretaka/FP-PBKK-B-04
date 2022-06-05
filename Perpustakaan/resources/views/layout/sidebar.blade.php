@@ -51,7 +51,7 @@
 
     <!-- Nav Item - Pengaturan Akun -->
     <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{{ route('admin.profile', auth()->user()->id) }}">
             <i class="fas fa-fw fa-cog"></i>
             <span>{{__('layout.settings')}}</span></a>
     </li>

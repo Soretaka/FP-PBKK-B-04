@@ -34,7 +34,7 @@ class BorrowController extends Controller {
     // show input form
     public function showInputForm() {
         $books = Book::where('status', 'Tersedia')->get();
-        $users = User::all();
+        $users = User::where('isAdmin', 0)->get();
         return view('borrow.create', [
             "title" => "Borrow Input Form",
             "books" => $books,
@@ -94,6 +94,6 @@ class BorrowController extends Controller {
         }    
         $borrow_details->save();
 
-        return redirect()->route('borrow.detail-data', ['id' => $borrow_details->borrow->id]);
+        return redirect()->route('borrow.detail-data', ['id' => $borrow_details->borrow->id])->with('status', 'Pengembalian buku berhasil!');
     }
 }

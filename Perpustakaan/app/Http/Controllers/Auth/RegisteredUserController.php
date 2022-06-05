@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use App\Jobs\SendWelcomeEmailJob;
 
 class RegisteredUserController extends Controller
 {
@@ -54,7 +55,7 @@ class RegisteredUserController extends Controller
         ]);
 
         event(new Registered($user));
-
+        dispatch(new SendWelcomeEmailJob($user));
         Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);

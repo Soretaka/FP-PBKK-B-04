@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Category;
 
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class CategoryControllerTest extends TestCase
 {
@@ -11,8 +11,23 @@ class CategoryControllerTest extends TestCase
      *
      * @return void
      */
-    public function test_example()
+    public function test_store_data_successfully_category()
     {
-        $this->assertTrue(true);
+        $response = $this->post('/category/store', [
+            'kategori_buku' => 'category_test'
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertRedirect('/category');
+    }
+
+    public function test_store_data_failed_category()
+    {
+        $response = $this->post('/category/store', [
+            'kategori_buku' => 'category_test'
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertRedirect('/');
     }
 }

@@ -7,15 +7,21 @@
     <div class="card shadow mb-4">
         <div class="card-body">
             <div class="form-group row">
-                <label for="nama" class="col-sm-2 col-form-label">Nama</label>
+                <label for="Name" class="col-sm-2 col-form-label">Nama</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" id="nama" name="nama" value="{{ $member->name }}" readonly>
+                    <input type="text" class="form-control" id="Name" name="Name" value="{{ $member->name }}" readonly>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="tanggal_lahir" class="col-sm-2 col-form-label">Tanggal Lahir</label>
+                <label for="email" class="col-sm-2 col-form-label">email</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="email" name="email" value="{{ $member->email }}" readonly>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="TL" class="col-sm-2 col-form-label">Tanggal Lahir</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" id="tanggal_lahir" name="tanggal_lahir" value="{{ $member->TL }}" readonly>
+                    <input type="text" class="form-control" id="TL" name="TL" value="{{ $member->TL }}" readonly>
                 </div>
             </div>
             <div class="form-group row">

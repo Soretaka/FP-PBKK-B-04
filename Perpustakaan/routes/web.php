@@ -1,5 +1,7 @@
 <?php
+namespace App;
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BorrowController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategoryController;
@@ -57,8 +59,6 @@ Route::group(['middleware' => 'auth'], function() {
         // Member
         Route::group(['prefix' => 'member', 'as' => 'member.'], function(){
             Route::get('/', [MemberController::class, 'index'])->name('index');
-            // Route::get('/input-form', [MemberController::class, 'showInputForm'])->name('input-data');
-            // Route::post('/store', [MemberController::class, 'store'])->name('store-data');
             Route::get('/detail/{id}', [MemberController::class, 'detail'])->name('detail-data');
             Route::get('/edit/{id}', [MemberController::class, 'showEditForm'])->name('edit-form');
             Route::post('/update/{id}', [MemberController::class, 'update'])->name('update-data');
@@ -73,11 +73,19 @@ Route::group(['middleware' => 'auth'], function() {
             Route::get('/detail/{id}', [BorrowController::class, 'detail'])->name('detail-data');
             Route::get('/return/{id}', [BorrowController::class, 'returnBook'])->name('return-book');
         });
+
+        // Admin
+        Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
+            Route::get('/{id}', [AdminController::class, 'detail'])->name('profile');
+            Route::get('/edit/{id}', [AdminController::class, 'showEditForm'])->name('edit-form');
+            Route::post('/update/{id}', [AdminController::class, 'update'])->name('update-data');
+        });
     });
     
     // User
     Route::group(['middleware' => 'checkRole:user'], function() {
         Route::get('/userDashboard', [DashboardController::class, 'indexUser'])->name('dashboard-index-user');
+        //book
         Route::group(['prefix' => 'book', 'as' => 'book.'], function(){
             Route::get('/', [BookController::class, 'index'])->name('index');
             Route:: get('/detail/{id}', [BookController::class, 'detail'])->name('detail-data');

@@ -4,6 +4,12 @@
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">{{ __('borrow.detail') }}</h1>
 
+    @if (session('status'))
+        <div class="alert alert-success" id="session">
+            {{ session('status') }}
+        </div>
+    @endif
+
     @foreach ($borrows as $borrow)
         <div class="card shadow mb-4">
             <div class="card-body">
@@ -58,4 +64,10 @@
     <div class="mb-2">
         <a href="{{ route('borrow.index') }}" class="btn btn-secondary float-right mr-3">Kembali</a>
     </div>
+
+    <script>
+        setTimeout(function() {
+            $('#session').fadeOut('fast');
+        }, 2000);
+    </script>
 @endsection

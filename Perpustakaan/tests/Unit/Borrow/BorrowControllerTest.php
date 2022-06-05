@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Borrow;
 
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class BorrowControllerTest extends TestCase
 {
@@ -11,8 +11,27 @@ class BorrowControllerTest extends TestCase
      *
      * @return void
      */
-    public function test_example()
+    public function test_store_data_successfully_borrow()
     {
-        $this->assertTrue(true);
+        $response = $this->post('/borrow/store', [
+            'must_return_date' => '2022-07-12',
+            'user_id' => 2,
+            'admin_id' => 1
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertRedirect('/borrow');
+    }
+
+    public function test_store_data_failed_borrow()
+    {
+        $response = $this->post('/borrow/store', [
+            'must_return_date' => '2022-07-12',
+            'user_id' => 2,
+            'admin_id' => 1
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertRedirect('/');
     }
 }
