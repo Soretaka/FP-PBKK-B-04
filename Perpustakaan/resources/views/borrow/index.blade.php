@@ -2,7 +2,7 @@
 
 @section('container')
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Data Peminjaman</h1>
+    <h1 class="h3 mb-2 text-gray-800">{{ __('borrow.data') }}</h1>
 
     @if (session('status'))
         <div class="alert alert-success">
@@ -18,7 +18,7 @@
                 <span class="icon text-grey-50">
                     <i class="fas fa-plus"></i>
                 </span>
-                <span class="text">Tambah Peminjaman buku</span>
+                <span class="text">{{ __('borrow.add') }}</span>
             </a>
         </div>
     {{-- @endif --}}
@@ -28,11 +28,11 @@
                     <thead>
                         <tr class="text-center">
                             <th>No</th>
-                            <th>Nama Siswa</th>
-                            <th>Nama Admin</th>
-                            <th>Tanggal Peminjaman</th>
-                            <th>Tanggal Harus Kembali</th>
-                            <th>Detai Peminjaman</th>
+                            <th>{{ __('borrow.siswa') }}</th>
+                            <th>{{ __('borrow.admin') }}</th>
+                            <th>{{ __('borrow.tgl_pinjam') }}</th>
+                            <th>{{ __('borrow.thl_hrs_kembali') }}</th>
+                            <th>{{ __('borrow.detail') }}</th>
                         </tr>
                     </thead>
                     @php
@@ -50,7 +50,7 @@
                             <td>{{ $borrow->created_at }}</td>
                             <td>{{ $borrow->must_return_date }}</td>
                             <td>
-                                <a href="{{ route('borrow.detail-data', $borrow->id) }}" class="badge badge-info">detail</a>
+                                <a href="{{ route('borrow.detail-data', $borrow->id) }}" class="badge badge-info">Detail</a>
                             </td>
                         </tr>
                     </tbody>
