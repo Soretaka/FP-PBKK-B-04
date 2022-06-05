@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BorrowDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -37,10 +38,15 @@ class DashboardController extends Controller
             "borrows_count" => $borrows_count[0]->count,
         ]);
     }
-
     public function indexUser() {
+        $books = BorrowDetails::groupBy('book_id')
+        ->selectRaw('count(*) as total, book_id')
+        ->orderBy('total','DESC')
+        ->limit(3)
+        ->get();
         return view('user.dashboard', [
-            "title" => "Dashboard"
+            "title" => "Dashboard",
+            "books" => $books
         ]);
     }
 

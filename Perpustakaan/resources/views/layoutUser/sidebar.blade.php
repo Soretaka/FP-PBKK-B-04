@@ -16,7 +16,7 @@
     <li class="nav-item {{ ($title === "Dashboard") ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('dashboard-index-user') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span></a>
+            <span>Buku Teratas</span></a>
     </li>
 
     <!-- Divider -->
