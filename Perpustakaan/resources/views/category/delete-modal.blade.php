@@ -8,7 +8,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">Anda yakin akan menghapus kategori <b>{{ $category->kategori_buku }}</b>?</div>
+            <div class="modal-body">{{ __('category.delete') }}<b>{{ $category->kategori_buku }}</b>?</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">{{ __('Batal') }}</button>
                 <form action="{{ route('category.delete-data', $category->id) }}" method="POST">

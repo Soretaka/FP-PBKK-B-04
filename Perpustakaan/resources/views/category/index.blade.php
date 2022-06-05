@@ -2,7 +2,7 @@
 
 @section('container')
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Data Kategori</h1>
+    <h1 class="h3 mb-2 text-gray-800">{{ __('category.data') }}</h1>
 
     @if (session('status'))
         <div class="alert alert-success">
@@ -17,7 +17,7 @@
                 <span class="icon text-grey-50">
                     <i class="fas fa-plus"></i>
                 </span>
-                <span class="text">Tambah kategori buku</span>
+                <span class="text">{{ __('category.add') }}</span>
             </a>
         </div>
         
@@ -27,7 +27,7 @@
                     <thead>
                         <tr class="text-center">
                             <th>No</th>
-                            <th>Kategori Buku</th>
+                            <th>{{ __('category.category') }}</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>

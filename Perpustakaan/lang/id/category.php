@@ -7,7 +7,7 @@ return[
     'catagory_field'=> 'Field kategori harus diisi',
     'save' => 'Simpan',
     'back' => 'Kembali',
-    'delete'=> 'Anda yakin akan menghapus buku',
+    'delete'=> 'Anda yakin akan menghapus kategori',
     'edit'=> 'Edit Kategori Buku',
     'data'=> 'Data Kategori',
     'add'=> 'Tambah Kategori Buku',
