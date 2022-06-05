@@ -26,7 +26,7 @@ return[
     'catagory_field'=> 'Category field is required',
     'save'=> 'Save',
     'back'=> 'Back',
-    'delete'=> 'Are you sure you want to delete the book',
+    'delete'=> 'Are you sure you want to delete category',
     'detail'=> 'Book detail',
     'edit' => 'Edit books',
     'borrow'=> 'Borrow books',
