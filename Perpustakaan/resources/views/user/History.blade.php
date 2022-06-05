@@ -2,7 +2,7 @@
 
 @section('container')
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Data Peminjaman</h1>
+    <h1 class="h3 mb-2 text-gray-800">{{ __('user.data') }}</h1>
 
     @if (session('status'))
         <div class="alert alert-success">
@@ -20,10 +20,10 @@
                     <thead>
                         <tr class="text-center">
                             <th>No</th>
-                            <th>Nama Admin</th>
-                            <th>Tanggal Peminjaman</th>
-                            <th>Tanggal Harus Kembali</th>
-                            <th>Detai Peminjaman</th>
+                            <th>{{ __('user.admin') }}</th>
+                            <th>{{ __('user.tgl_pinjam') }}</th>
+                            <th>{{ __('user.tgl_hrs_kembali') }}</th>
+                            <th>{{ __('user.detail') }}</th>
                         </tr>
                     </thead>
                     @php

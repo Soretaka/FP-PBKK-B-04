@@ -17,7 +17,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Data Kategori Buku</div>
+                                {{__('admin.category')}}</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $categories_count }}</div>
                         </div>
                         <div class="col-auto">
@@ -35,7 +35,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Data Buku Tersedia</div>
+                                {{__('admin.available')}}</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $books_count }}</div>
                         </div>
                         <div class="col-auto">
@@ -52,7 +52,7 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Data Anggota
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">{{__('admin.member')}}
                             </div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
@@ -75,7 +75,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                Data Peminjaman</div>
+                                {{__('admin.borrow')}}</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $borrows_count }}</div>
                         </div>
                         <div class="col-auto">

@@ -12,7 +12,7 @@
             </div>
             <div class="modal-body">{{__('layout.select_logout')}}</div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">{{__('layout.cancel')}}</button>
             
                     <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">

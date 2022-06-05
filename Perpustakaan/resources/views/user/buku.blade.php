@@ -2,7 +2,7 @@
 
 @section('container')
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-grey-800">Data Buku</h1>
+    <h1 class="h3 mb-2 text-grey-800">{{ __('user.book_data') }}</h1>
 
     @if (session('status'))
         <div class="alert alert-success">
@@ -20,10 +20,10 @@
                             <img src="{{ asset('storage/' . $book->image) }}" alt="{{ $book->judul }}" class="rounded mx-auto d-block top" style="width: 5cm; height:200px">
                             @endif
                             <div class = "font-weight-bold">
-                                <br>judul buku: {{ $book->judul }}
+                                <br>{{ __('user.title') }}: {{ $book->judul }}
                             </div>
-                            genre buku: {{ $book->category->kategori_buku }}
-                            <br>penulis buku : {{ $book->penulis }}
+                            {{ __('user.genre') }}: {{ $book->category->kategori_buku }}
+                            <br>{{ __('user.author') }} : {{ $book->penulis }}
                             @if ($book->status == "Tidak tersedia")
                             <p class="text-danger">{{ $book->status }} </p>
                             @endif

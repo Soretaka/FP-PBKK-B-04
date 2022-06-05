@@ -11,5 +11,12 @@ return [
     'logout'=>'Logout',
     'ready_to_leave' => 'Ready to Leave?',
     'select_logout' => 'Select "Logout" below if you are ready to end your current session.',
-    'logged' => 'You\'re logged in!'
+    'logged' => 'You\'re logged in!',
+    'cancel' => 'cancel',
+    'category' => 'Book Category',
+    'book' => 'Book Data',
+    'member' => 'Member Data',
+    'borrow' => 'Borrowing',
+    'trend' => 'Trending Books'
+
 ];

@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="timestamps" class="col-sm-2 col-form-label">{{ __('borrow.tgl_hrs_pinjam') }}</label>
+                    <label for="timestamps" class="col-sm-2 col-form-label">{{ __('borrow.tgl_hrs_kembali') }}</label>
                     <div class="col-sm-8">
                         <input type="text" class="form-control" id="timestamps" name="timestamps" value="{{ $borrow->borrow->must_return_date }}" readonly>
                     </div>
@@ -62,7 +62,7 @@
         </div>
     @endforeach
     <div class="mb-2">
-        <a href="{{ route('borrow.index') }}" class="btn btn-secondary float-right mr-3">Kembali</a>
+        <a href="{{ route('borrow.index') }}" class="btn btn-secondary float-right mr-3">{{ __('borrow.back') }}</a>
     </div>
 
     <script>

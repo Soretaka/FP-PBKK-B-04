@@ -20,6 +20,31 @@
         </div>
     </form>
 
+    <div class="collapse navbar-collapse" id="navbarToggler">
+        <ul class="navbar-nav ml-auto">
+            @php $locale = session()->get('locale'); @endphp
+            <li class="nav-item dropdown">
+                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+       @switch($locale)
+                        @case('en')
+                        English
+                        @break
+                        @case('id')
+                        Indonesia
+                        @break
+                        @default
+                        English
+                    @endswitch    
+                    <span class="caret"></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/form/en"> English</a>
+                    <a class="dropdown-item" href="/form/id"> Indonesia</a>
+                </div>
+            </li>
+        </ul>
+    </div>
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto">
 
@@ -60,7 +85,7 @@
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                 aria-labelledby="userDropdown">
-                {{-- <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="#">
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     {{__('layout.profile')}}
                 </a>
@@ -71,8 +96,8 @@
                 <a class="dropdown-item" href="#">
                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                     {{__('layout.activity_log')}}
-                </a> --}}
-                {{-- <div class="dropdown-divider"></div> --}}
+                </a>
+                <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                     {{__('layout.logout')}}
