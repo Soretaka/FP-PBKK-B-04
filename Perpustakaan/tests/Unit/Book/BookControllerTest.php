@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Book;
 
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class BookControllerTest extends TestCase
 {
