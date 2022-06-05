@@ -28,7 +28,7 @@
                         <tr class="text-center">
                             <th>No</th>
                             <th>{{ __('category.category') }}</th>
-                            <th>Aksi</th>
+                            <th>{{ __('category.action') }}</th>
                         </tr>
                     </thead>
                     
