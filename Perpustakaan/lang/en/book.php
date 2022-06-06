@@ -12,7 +12,7 @@ return[
     'publisher' => 'Publisher',
     'publisher_field' => 'Publisher field is required',
     'date' => 'Publish Date',
-    'year' => '-Yeay-',
+    'year' => '-Year-',
     'date_field' => 'Publish date field is required',
     'isbn_field'=> 'ISBN field is required',
     'status' => [
