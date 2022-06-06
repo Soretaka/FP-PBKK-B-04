@@ -265,8 +265,18 @@ pada form penginputan buku tampilannya seperti ini
 apabila berhasil akan tampil seperti ini
 ![image](https://user-images.githubusercontent.com/85062827/172171205-f5c80805-d458-4dba-888f-3395af26797c.png)
 
+## Session and Caching
+### Session
+Pada projek ini di session digunakan untuk localization seperti ini
 
-
+```
+public function index($locale){
+  App::setlocale($locale);
+  session()->put('locale', $locale);
+  return redirect()->back();
+}
+```
+### Caching
 
 
 ### Unit Testting
