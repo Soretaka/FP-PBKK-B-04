@@ -266,3 +266,93 @@ apabila berhasil akan tampil seperti ini
 ![image](https://user-images.githubusercontent.com/85062827/172171205-f5c80805-d458-4dba-888f-3395af26797c.png)
 
 
+
+
+
+### Unit Testting
+Diambil salah satu contoh yaitu CategoryControllerTest
+
+Pertama untuk membuat Unit Testing, dapat menjalankan command berikut
+```
+    php artisan make:test Category/CategoryControllerTest --unit
+```
+
+Kemudian tambahkan fungsi dibawah ini pada `CategoryControllerTest.php` untuk menguji modul `CategoryController.php`.
+
+- Fungsi `test_store_data_successfully_category` digunakan untuk menguji ketika kita ingin menambahkan kategori secara sukses. Kita mencoba menggunakan `$this->post` dengan memasukkan data kategori buku. ada test ini kita menggunakan `assertStatus` untuk mengecek apakah statusnya `302` karena pada `CategoryController`, kita melakukan `return redirect()->route('category.index')->with('status', 'Kategori buku berhasil ditambah!');` sehingga kita melakukan redirect yang mempunyai kode `302`. Kita juga memastikan apakah route redirectnya benar atau tidak menggunakan `assertRedirect`.
+```
+public function test_store_data_successfully_category()
+    {
+        $response = $this->post('/category/store', [
+            'kategori_buku' => 'category_test'
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertRedirect('/category');
+    }
+```
+
+- Fungsi `test_store_data_failed_category` digunakan untuk menguji ketika kita ingin menambahkan kategori secara gagal. Fungsi ini mempunyai implementasi yang hampir sama tapi kita mengirimkan kategori buku yang kosong ketika di CategoryController terdapat validasi yang memerlukan nama kategori buku. Sehingga kita mengganti `asssertRedirect` dengan `/`, bukan `/category/`.
+```
+public function test_store_data_failed_category()
+    {
+        $response = $this->post('/category/store', [
+            'kategori_buku' => ''
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertRedirect('/');
+    }
+```
+
+### Feature Testing
+Diambil salah satu contoh yaitu BookTest
+
+Pertama untuk membuat Feature Testing, dapat menjalankan command berikut
+```
+php artisan make:test BookTest
+```
+
+Kemudian tambahkan fungsi dibawah ini pada `CategoryControllerTest.php`.
+
+- Fungsi `test_welcome_status` digunakan untuk menguji ketika membuka page dengan route `/book` menggunakan method `get`. Jika berhasil membuka page tersebut maka akan mendapatkan response status code `200`.
+```
+public function test_welcome_status()
+    {
+        $response = $this->get('/book');
+
+        $response->assertStatus(200);
+    }
+```
+
+- Fungsi `test_input_status` digunakan untuk menguji ketika membuka page dengan route `/book/input-form` menggunakan method `get`. Jika berhasil membuka page tersebut maka akan mendapatkan response status code `200`.
+```
+public function test_input_status()
+    {
+        $response = $this->get('/book/input-form');
+
+        $response->assertStatus(200);
+    }
+
+```
+
+- Fungsi `test_images_can_be_uploaded` digunkan untuk menguji penguploadan gamabr pada sebuah website. Fungsi ini menggunkan method `fake` dari `use Illuminate\Http\UploadedFile` untuk membuat image dummy untuk testing dan method `fake` dari `Illuminate\Support\Facades\Storage` untuk mempermudah testing upload image.
+```
+public function test_images_can_be_uploaded()
+    {
+        Storage::fake('images');
+
+        $file = UploadedFile::fake()->image('image.jpg');
+
+        $response = $this->post('/image', [
+            'image' => $file,
+        ]);
+
+        Storage::disk('images')->assertExists($file->hashName());
+    }
+```
+
+Untuk menjalankan HTTP test dapat menjalankan command berikut
+```
+php artisan test
+```

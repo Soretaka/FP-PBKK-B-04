@@ -24,7 +24,7 @@ class CategoryControllerTest extends TestCase
     public function test_store_data_failed_category()
     {
         $response = $this->post('/category/store', [
-            'kategori_buku' => 'category_test'
+            'kategori_buku' => ''
         ]);
 
         $response->assertStatus(302);
