@@ -1064,8 +1064,10 @@ npm install && npm run dev
 ```
 
 berikut adalah tampilan halaman login:
+![login](https://user-images.githubusercontent.com/70903245/172197341-7f7fbf66-55f1-480d-afbd-9948191c845d.png)
 
 Berikut adalah tampilan halaman register:
+![image](https://user-images.githubusercontent.com/70903245/172197384-50f75948-b354-4c6e-a2af-6e5300c1309e.png)
 
 Berikut adalah salah satu contoh dalam file `app\Http\Controllers\BookController.php` mengambil data user menggunakan Auth:
 ```php
