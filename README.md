@@ -1,4 +1,167 @@
-# FP-PBKK-B-04
+# FP-PBKK-B-04 | Sistem Informasi Manajemen Perpustakaan
+
+Nama Anggota Kelompok: 
+
+-
+-
+-
+- Nur Hidayati (05111940000028)
+
+---
+
+## Laravel Model, Eloquent and Query Builder
+
+Pada sistem informasi perpustakaan ini, kami akan mengambil contoh salah satu fitur yang mengimplementasikan penggunaan model dan eloquent, yaitu fitur peminjaman. Adapun model-model yang terlibat dalam fitur peminjaman diantaranya `User`, `Borrow`, `BorrowDetails`, `Book`, dan `Category`. Skenario yang kami terapkan pada fitur peminjaman yaitu setiap member dapat meminjam lebih dari satu buku tetapi tidak boleh lebih dari tiga buku, dengan ini tentunya akan ada detail peminjaman yang akan menangani masing-masing buku yang dipinjam. Setiap transaksi peminjaman hanya dapat ditangani oleh satu admin. Setiap buku yang ada di perpustakaan hanya memiliki satu kategori. Dengan skenario tersebut berikut merupakan struktur model-model yang terlibat dalam fitur peminjaman. 
+
+Model `User`
+```ruby
+class User extends Authenticatable
+{
+    use HasApiTokens, HasFactory, Notifiable;
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'isAdmin',
+        'TL',
+        'Alamat',
+        'JK',
+        'NIS'
+    ];
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
+    public function borrow() {
+        return $this->hasMany(Borrow::class);
+    }
+}
+```
+Terkait atribut-atribut yang akan digunakan maka harus didefinisikan terlebih dahulu seperti yang terlihat pada variabel `$fillable`. Relasi antara user dengan peminjaman yaitu one to many dikarenakan setiap member boleh meminjam lebih dari satu buku dan setiap transaksi peminjaman hanya dilayani oleh satu admin. Dengan demikian pada model User relasinya yaitu `hasMany` sedangkan inversenya terdapat pada model Borrow dengan relasi `belongsTo`.
+
+Model `Borrow`
+```ruby
+class Borrow extends Model
+{
+    use HasFactory;
+    protected $table = "Borrows";
+    protected $fillable = [
+        'admin_id',
+        'user_id',
+        'must_return_date'
+    ];
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+    public function borrowdetails(){
+        return $this->hasMany(BorrowDetails::class);
+    }
+}
+```
+Pada model borrow, kami definisikan atribut-atribut yang akan digunakan yaitu pada variable `$fillable`. Relasi antara peminjaman dan detail peminjaman yaitu one to many dimana setiap peminjaman memiliki banyak detail peminjaman. Oleh karena itu relasi antara model Borrow dengan model BorrowDetails adalah `hasMany` dengan inversnya pada model BorrowDetails yaitu `belongsTo`.
+
+Model `BorrowDetails`
+```ruby
+class BorrowDetails extends Model
+{
+    use HasFactory;
+    protected $table = "borrow_details";
+    protected $fillable = [
+        'borrow_id',
+        'book_id',
+        'return_date',
+        'denda',
+    ];
+
+    public function book() {
+        return $this->belongsTo(Book::class);
+    }
+
+    public function borrow() {
+        return $this->belongsTo(Borrow::class);
+    }
+}
+```
+Selanjutnya, relasi antara model BorrowDetails dengan model Book adalah one to one dikarenakan setiap buku hanya terdapat pada satu detail peminjaman, begitu pula sebaliknya. Untuk mengimplementasikan relasi tersebut, pada model Book menggunakan keyword `hasOne` dengan inversenya pada model BorrowDetails yaitu `belongsTo`.
+
+Model `Book`
+```ruby
+class Book extends Model
+{
+    use HasFactory;
+    protected $table = "Books";
+    protected $guarded = [];
+
+    public function category() {
+        return $this->belongsTo(Category::class, 'kategori_id');
+    }
+    public function borrow_details() {
+        return $this->hasOne(BorrowDetails::class);
+    }
+}
+```
+
+Model `Category`
+```ruby
+class Category extends Model
+{
+    use HasFactory;
+    protected $table = "Categories";
+
+    protected $fillable = [
+        'kategori_buku'
+    ];
+}
+```
+Selanjutnya yang kami bahas yaitu mengenai relasi antara buku dengan kategori dimana setiap buku hanya memiliki satu kategori sedangkan setiap kategori pasti memiliki banyak buku. Dengan demikian, relasinya adalah one to many. Pada model Book menggunakan keyword `belongsTo` yang menjadi inversenya.
+
+Setelah membahas mengenai model dan eloquent, selanjutnya kami akan membahas mengenai query builder. Untuk implementasi dari query builder, kami akan menggunakan menu dashboard sebagai contohnya. Pada menu dashboard, kami menampilkan jumlah kategori buku, jumlah buku yang tersedia, jumlah member perpustakaan, dan jumlah peminjaman yang statusnya belum dikembalikan.
+
+```ruby
+use Illuminate\Support\Facades\DB;
+
+class DashboardController extends Controller
+{
+    public function indexAdm() {
+        $categories_count = DB::table('categories')
+                                ->select(DB::raw("COUNT(categories.id) as count"))
+                                ->get();
+        
+        $books_count = DB::table('books')
+                            ->select(DB::raw("COUNT(books.id) as count"))
+                            ->where('status', 'Tersedia')
+                            ->get();
+        
+        $members_count = DB::table('users')
+                            ->select(DB::raw("COUNT(users.id) as count"))
+                            ->where('isAdmin', 0)
+                            ->get();
+        
+        $borrows_count = DB::table('borrows')
+                            ->select(DB::raw("COUNT(borrows.id) as count"))
+                            ->join('borrow_details', 'borrows.id', '=', 'borrow_details.borrow_id')
+                            ->whereNull('borrow_details.return_date')
+                            ->get();
+                                
+        return view('admin.dashboard', [
+            "title" => "Dashboard",
+            "categories_count" => $categories_count[0]->count,
+            "books_count" => $books_count[0]->count,
+            "members_count" => $members_count[0]->count,
+            "borrows_count" => $borrows_count[0]->count,
+        ]);
+    }
+}
+```
+
+Adapun untuk tampilan dashboard pada admin sebagai berikut:
+
+![image](https://drive.google.com/uc?export=view&id=169yzH60JLptixLvVJaUhksX7tMp8q1eh)
 
 ## Localization and File Storage
 ### Localization
