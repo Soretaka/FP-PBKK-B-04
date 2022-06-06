@@ -62,7 +62,7 @@
                         <i class="fas fa-trash"></i>
                     </a>
                 @endif
-                    <a href="{{ route('book.index') }}" class="btn btn-secondary float-left">{{ __('layout.back') }}</a>
+                    <a href="{{ route('book.index') }}" class="btn btn-secondary float-left">{{ __('book.back') }}</a>
                 @include('book.delete-modal')
             </div>
         </div>
