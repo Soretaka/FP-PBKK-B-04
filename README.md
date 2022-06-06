@@ -2,7 +2,7 @@
 
 Nama Anggota Kelompok: 
 
--
+- Anak Agung Yatestha Parwata (5025201234)
 -
 -
 - Nur Hidayati (05111940000028)
