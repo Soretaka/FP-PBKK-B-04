@@ -1,5 +1,6 @@
 # FP-PBKK-B-04
 
+## Localization and File Storage
 ### Localization
 Diambil salah satu contoh yaitu pada bagian layout.
 
@@ -210,3 +211,58 @@ tambahkan kode berikut pada view `topbar.blade.php`
         </ul>
     </div>
 ```
+hasil ketika dijalankan seperti ini
+- English
+![image](https://user-images.githubusercontent.com/85062827/172169201-e1f3f0e4-587b-403f-9fa4-fed81907784d.png)
+- Indonesia
+![image](https://user-images.githubusercontent.com/85062827/172169349-ed2fe4d8-0bbe-4d4c-b854-6b183a0238b8.png)
+
+
+### File Storage
+Kita ambil contoh ketika ingin mengupload file buku saat mengisi form. Pertama tama kita tulis kode berikut di `/book/create.blade.php`
+
+```
+<div class="form-group row">
+     <label for="image" class="col-sm-2 col-form-label">{{ __('book.image') }}</label>
+     <div class="col-sm-5">
+        <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" onchange="imagePreview()" autofocus>
+        <img class="img-preview img-fluid mt-3 col-sm-5">
+        @error('image')
+            <div id="imageFeedback" class="invalid-feedback">{{ __('book.format') }}</div>
+        @enderror
+     </div>
+ </div>
+```
+kemudian pada `BookController.php` pada fungsi store kita tambahkan
+
+```
+    public function store(Request $request) {
+        $validateData = $request->validate([
+            'image' => 'required | image | mimes:jpeg,png,jpg | max:2048',
+            'judul' => 'required',
+            'penulis' => 'required',
+            'penerbit' => 'required',
+            'tahun_terbit' => 'required',
+            'isbn' => 'required',
+            'status' => 'required',
+            'kategori_id' => 'required'
+        ]);
+        if($request->file('image')) {
+            $validateData['image'] = $request->file('image')->store('book-image');
+        }
+        Book::create($validateData);
+
+        return redirect()->route('book.index')->with('status', 'Data buku berhasil ditambah!');
+    }
+```
+ubah FILESYSTEM_DISK pada environtment di `.env` kita menjadi `FILESYSTEM_DISK=public`
+
+jalankan `php artisan storage:link` pada terminal
+
+pada form penginputan buku tampilannya seperti ini
+![image](https://user-images.githubusercontent.com/85062827/172171396-6a427ebf-e4c2-4328-8b09-f6e7c85501ef.png)
+
+apabila berhasil akan tampil seperti ini
+![image](https://user-images.githubusercontent.com/85062827/172171205-f5c80805-d458-4dba-888f-3395af26797c.png)
+
+
