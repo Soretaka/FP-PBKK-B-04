@@ -277,7 +277,428 @@ public function index($locale){
 }
 ```
 ### Caching
+###  Route, Controller and Middleware
+Diambil dari salah satu contoh yaitu BookController
 
+Pertama untuk membuat controller, dapat menjalankan command berikut
+```
+php artisan make:controller BookController --resource
+```
+
+Kemudian tambahkan fungsi dibawah ini pada `BookController.php`
+
+- Fungsi `index` untuk menampilkan halaman utama untuk book
+```
+public function index() {
+        $books = Book::all();
+        if(Auth::user()->isAdmin){
+        return view('book.index', [
+            "title" => "Book",
+            "books" => $books
+        ]);
+        }else{
+            return view('user.buku',[
+                "title" => "Book",
+                "books" => $books
+            ]);
+        }
+    }
+```
+
+- Fungsi `showInputForm` untuk menampilkan halaman formulir penambahan buku
+```
+public function showEditForm($id) {
+        $book = Book::where('id', $id)->first();
+        $categories = Category::all();
+
+        return view('book.edit', [
+            "title" => "Book Edit Form",
+            "book" => $book,
+            "categories" => $categories
+        ]);
+    }
+```
+
+- Fungsi `store` untuk menyimpan buku. Nanti divalidasi apakah data yang sudah diisi sudah lengkap melalui `$request->validate` dan `$request->file('image')` untuk gambar. Lalu data dimasukkan ke database dan diredirect ke `book.index` dengan status `Data buku berhasil ditambah!`.
+```
+// store data
+    public function store(Request $request) {
+        $validateData = $request->validate([
+            'image' => 'required | image | mimes:jpeg,png,jpg | max:2048',
+            'judul' => 'required',
+            'penulis' => 'required',
+            'penerbit' => 'required',
+            'tahun_terbit' => 'required',
+            'isbn' => 'required',
+            'status' => 'required',
+            'kategori_id' => 'required'
+        ]);
+        if($request->file('image')) {
+            $validateData['image'] = $request->file('image')->store('book-image');
+        }
+        Book::create($validateData);
+
+        return redirect()->route('book.index')->with('status', 'Data buku berhasil ditambah!');
+    }
+```
+
+- Fungsi `detail` untuk menampilkan detail buku
+```
+// show detail 
+    public function detail($id) {
+        $book = Book::where('id', $id)->first();
+
+        return view('book.detail', [
+            "title" => "Book Detail",
+            "book" => $book
+        ]);
+    }
+``` 
+
+- Fungsi `edit` untuk menampilkan halaman edit buku.
+```
+// show edit form 
+    public function showEditForm($id) {
+        $book = Book::where('id', $id)->first();
+        $categories = Category::all();
+
+        return view('book.edit', [
+            "title" => "Book Edit Form",
+            "book" => $book,
+            "categories" => $categories
+        ]);
+    }
+```
+
+- Fungsi `update` untuk mengupdate data buku.
+```
+public function update(Request $request, $id) {
+        $book = Book::findOrFail($id);
+        $validateData = $request->validate([
+            'image' => 'required | image | mimes:jpeg,png,jpg | max:2048',
+            'judul' => 'required',
+            'penulis' => 'required',
+            'penerbit' => 'required',
+            'tahun_terbit' => 'required',
+            'isbn' => 'required',
+            'status' => 'required',
+            'kategori_id' => 'required'
+        ]);
+        if($request->file('image')) {
+            if($request->oldImage) {
+                Storage::delete($request->oldImage);
+            }
+            $validateData['image'] = $request->file('image')->store('book-image');
+        }
+        $book->update($validateData);
+        
+        return redirect()->route('book.index')->with('status', 'Data buku berhasil diedit!');
+    }
+```
+
+- Fungsi `destroy` untuk menghapus data buku.
+```
+// delete
+    public function destroy($id) {
+        $book = Book::findOrFail($id);
+        if($book->image) {
+            Storage::delete($book->image);
+        }
+        $book->delete();
+
+        return redirect()->route('book.index')->with('status', 'Data buku berhasil dihapus!');
+    }
+```
+
+### Laravel request, validation and response
+Diambil dari salah satu contoh yaitu Book
+
+Pertama, buat form penambahan buku di `resources\views\book\create.blade.php`
+```
+@extends('layout.app')
+
+@section('container')
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">{{ __('book.add_book') }}</h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <form action="{{ route('book.store-data') }}" method="POST" enctype="multipart/form-data">
+                {{ csrf_field() }}
+                <div class="form-group row">
+                    <label for="image" class="col-sm-2 col-form-label">{{ __('book.image') }}</label>
+                    <div class="col-sm-5">
+                        <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" onchange="imagePreview()" autofocus>
+                        <img class="img-preview img-fluid mt-3 col-sm-5">
+                        @error('image')
+                            <div id="imageFeedback" class="invalid-feedback">{{ __('book.format') }}</div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="judul" class="col-sm-2 col-form-label">{{ __('book.title') }}</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control @error('judul') is-invalid @enderror" id="judul" name="judul" value="{{ old('judul') }}" autofocus>
+                        @error('judul')
+                            <div id="validationServerUsernameFeedback" class="invalid-feedback">{{ __('book.title_field') }}</div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="penulis" class="col-sm-2 col-form-label">{{ __('book.author') }}</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control @error('penulis') is-invalid @enderror" id="penulis" name="penulis" value="{{ old('penulis') }}" autofocus>
+                        @error('penulis')
+                            <div id="validationServerUsernameFeedback" class="invalid-feedback">{{ __('book.author_field') }}</div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="penerbit" class="col-sm-2 col-form-label">{{ __('book.publisher') }}</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control @error('penerbit') is-invalid @enderror" id="penerbit" name="penerbit" value="{{ old('penerbit') }}" autofocus>
+                        @error('penerbit')
+                            <div id="validationServerUsernameFeedback" class="invalid-feedback">{{ __('book.publisher_field') }}</div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="tahun" class="col-sm-2 col-form-label">{{ __('book.date') }}</label>
+                    <div class="col-sm-3">
+                        <select class="form-control @error('tahun_terbit') is-invalid @enderror" id="tahun_terbit" name="tahun_terbit" autofocus>
+                            <option value="">{{ __('book.year') }}</option>
+                            <?php
+                                $tahun = date("Y");
+                                for ($i=$tahun-20; $i <= $tahun; $i++) {
+                                    echo "<option value='$i'>$i</option>";
+                                }
+                            ?>
+                        </select>
+                        @error('tahun_terbit')
+                            <div id="validationServerUsernameFeedback" class="invalid-feedback">{{ __('book.date_field') }}</div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="isbn" class="col-sm-2 col-form-label">ISBN</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control @error('isbn') is-invalid @enderror" id="isbn" name="isbn" value="{{ old('isbn') }}" autofocus>
+                        @error('isbn')
+                            <div id="validationServerUsernameFeedback" class="invalid-feedback">{{ __('book.isbn_field') }}</div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="status" class="col-sm-2 col-form-label">Status</label>
+                    <div class="col-sm-3">
+                        <select class="form-control @error('status') is-invalid @enderror" id="status" name="status">
+                            <option value="">{{ __('book.status.select') }}</option>
+                            <option value="Tersedia">{{ __('book.status.available') }}</option>
+                            <option value="Tidak Tersedia">{{ __('book.status.not_available') }}</option>
+                        </select>
+                        @error('status')
+                            <div id="validationServerUsernameFeedback" class="invalid-feedback">{{ __('book.status.field') }}</div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="form-group row mb-4">
+                    <label for="kategori_id" class="col-sm-2 col-form-label">{{ __('book.category') }}</label>
+                    <div class="col-sm-5">
+                        <select class="form-control @error('kategori_id') is-invalid @enderror" id="kategori_id" name="kategori_id" autofocus>
+                            <option value="">{{ __('book.select_category') }}</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->kategori_buku }}</option>
+                            @endforeach
+                        </select>
+                        @error('kategori_id')
+                            <div id="validationServerUsernameFeedback" class="invalid-feedback">{{ __('book.category_field') }}</div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <button type="submit" class="btn btn-primary float-right">{{ __('book.save') }}</button>
+                    <a class="btn btn-secondary float-right mr-3" data-toggle="modal" data-target="#modalBackHome">{{ __('book.back') }}</a>
+                    @include('book.backhome-modal')
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function imagePreview() {
+            const image = document.querySelector('#image');
+            const imgPreview = document.querySelector('.img-preview');
+
+            imgPreview.style.display = 'block';
+
+            const oFReader = new FileReader();
+            oFReader.readAsDataURL(image.files[0]);
+
+            oFReader.onload = function(oFREvent) {
+                imgPreview.src = oFREvent.target.result;
+            }
+        }
+    </script>
+@endsection
+```
+
+Penjelasan untuk pesan error
+```
+<div class="col-sm-5">
+    <input type="text" class="form-control @error('penulis') is-invalid @enderror" id="penulis" name="penulis" value="{{ old('penulis') }}" autofocus>
+    @error('penulis')
+        <div id="validationServerUsernameFeedback" class="invalid-feedback">{{ __('book.author_field') }}</div>
+    @enderror
+</div>
+```
+Halaman akan menampilkan pesan error jika validasi tidak terpenuhi
+
+Lalu, buat controller `app\Http\Controllers\BookController.php`(sudah dijelaskan di bagian Laravel Route, Middleware, and Controller)
+```
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Category;
+use App\Models\Book;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+class BookController extends Controller
+{
+    // index
+    public function index() {
+        $books = Book::all();
+        if(Auth::user()->isAdmin){
+        return view('book.index', [
+            "title" => "Book",
+            "books" => $books
+        ]);
+        }else{
+            return view('user.buku',[
+                "title" => "Book",
+                "books" => $books
+            ]);
+        }
+    }
+
+    // show input form 
+    public function showInputForm() {
+        $categories = Category::all();
+
+        return view('book.create', [
+            "title" => "Book Input Form",
+            "categories" => $categories
+        ]);
+    }
+
+    // store data
+    public function store(Request $request) {
+        $validateData = $request->validate([
+            'image' => 'required | image | mimes:jpeg,png,jpg | max:2048',
+            'judul' => 'required',
+            'penulis' => 'required',
+            'penerbit' => 'required',
+            'tahun_terbit' => 'required',
+            'isbn' => 'required',
+            'status' => 'required',
+            'kategori_id' => 'required'
+        ]);
+        if($request->file('image')) {
+            $validateData['image'] = $request->file('image')->store('book-image');
+        }
+        Book::create($validateData);
+
+        return redirect()->route('book.index')->with('status', 'Data buku berhasil ditambah!');
+    }
+
+    // show detail 
+    public function detail($id) {
+        $book = Book::where('id', $id)->first();
+
+        return view('book.detail', [
+            "title" => "Book Detail",
+            "book" => $book
+        ]);
+    }
+
+    // show edit form 
+    public function showEditForm($id) {
+        $book = Book::where('id', $id)->first();
+        $categories = Category::all();
+
+        return view('book.edit', [
+            "title" => "Book Edit Form",
+            "book" => $book,
+            "categories" => $categories
+        ]);
+    }
+
+    // store edit data
+    public function update(Request $request, $id) {
+        $book = Book::findOrFail($id);
+        $validateData = $request->validate([
+            'image' => 'required | image | mimes:jpeg,png,jpg | max:2048',
+            'judul' => 'required',
+            'penulis' => 'required',
+            'penerbit' => 'required',
+            'tahun_terbit' => 'required',
+            'isbn' => 'required',
+            'status' => 'required',
+            'kategori_id' => 'required'
+        ]);
+        if($request->file('image')) {
+            if($request->oldImage) {
+                Storage::delete($request->oldImage);
+            }
+            $validateData['image'] = $request->file('image')->store('book-image');
+        }
+        $book->update($validateData);
+        
+        return redirect()->route('book.index')->with('status', 'Data buku berhasil diedit!');
+    }
+
+    // delete
+    public function destroy($id) {
+        $book = Book::findOrFail($id);
+        if($book->image) {
+            Storage::delete($book->image);
+        }
+        $book->delete();
+
+        return redirect()->route('book.index')->with('status', 'Data buku berhasil dihapus!');
+    }
+}
+```
+
+Penjelasan untuk validation
+ ```
+ $validateData = $request->validate([
+            'image' => 'required | image | mimes:jpeg,png,jpg | max:2048',
+            'judul' => 'required',
+            'penulis' => 'required',
+            'penerbit' => 'required',
+            'tahun_terbit' => 'required',
+            'isbn' => 'required',
+            'status' => 'required',
+            'kategori_id' => 'required'
+        ]);
+ ```
+ Fungsi validasi digunakan untuk mempermudah validasi dan mengambil pesan error apabilai syarat validasi tidak dipenuhi.
+
+Ketiga, tambahkan route pada `routes\web.php`. Untuk mengakses formulir, bisa digunakan method GET. Untuk memproses penambahan dan edit form, bisa digunakan method POST.
+```
+// book
+    Route::group(['prefix' => 'book', 'as' => 'book.'], function(){
+        Route::get('/', [BookController::class, 'index'])->name('index');
+        Route::get('/input-form', [BookController::class, 'showInputForm'])->name('input-data');
+        Route::post('/store', [BookController::class, 'store'])->name('store-data');
+        Route:: get('/detail/{id}', [BookController::class, 'detail'])->name('detail-data');
+        Route::get('/edit/{id}', [BookController::class, 'showEditForm'])->name('edit-form');
+        Route::post('/update/{id}', [BookController::class, 'update'])->name('update-data');
+        Route::delete('/delete/{id}', [BookController::class, 'destroy'])->name('delete-data');
+    });
+```
 
 ### Unit Testting
 Diambil salah satu contoh yaitu CategoryControllerTest
