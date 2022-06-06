@@ -428,6 +428,129 @@ pada form penginputan buku tampilannya seperti ini
 apabila berhasil akan tampil seperti ini
 ![image](https://user-images.githubusercontent.com/85062827/172171205-f5c80805-d458-4dba-888f-3395af26797c.png)
 
+## Laravel View and Blade and Blade Component
+
+View merupakan salah satu komponen penting dalam konsep MVC. Pada sistem informasi perpustakaan ini, kami mengimplementasikan cara membuat, menampilkan, dan memberikan data ke dalam view. Untuk mengirimkan data ke view, kami menggunakan cara sebagai berikut:
+
+- Menggunakan assosiative array:
+```ruby
+class BookController extends Controller
+{
+    public function showInputForm() {
+        $categories = Category::all();
+
+        return view('book.create', [
+            "title" => "Book Input Form",
+            "categories" => $categories
+        ]);
+    }
+}
+```
+- Menggunakan fungsi `with` milik view helper:
+```ruby
+class BookController extends Controller
+{
+    public function store(Request $request) {
+        $validateData = $request->validate([
+            'image' => 'required | image | mimes:jpeg,png,jpg | max:2048',
+            'judul' => 'required',
+            'penulis' => 'required',
+            'penerbit' => 'required',
+            'tahun_terbit' => 'required',
+            'isbn' => 'required',
+            'status' => 'required',
+            'kategori_id' => 'required'
+        ]);
+        if($request->file('image')) {
+            $validateData['image'] = $request->file('image')->store('book-image');
+        }
+        Book::create($validateData);
+
+        return redirect()->route('book.index')->with('status', 'Data buku berhasil ditambah!');
+    }
+}
+```
+- Menggunakan fungsi `compact` PHP:
+
+Fungsi ini membuat array yang mengandung variable dan nilai dari variable itu.
+```ruby
+class AuthController extends Controller
+{ 
+    public function retrieve(Request $request){
+        $user = $request->user()->name;
+        $id = $request->user()->id;
+
+        return view('dashboard', compact(['user', 'id']));
+    }
+}
+```
+
+Selanjutnya mengenai blade component, pada sistem informasi perpustakaan ini mengimplementasikan blade component salah satunya pada form login. Saat membuat tampilan web, biasanya kita melakukan pembuatan label dan input yang berulang-ulang pada sebuah form, misalnya form login, maka untuk mengatasi masalah tersebut kita akan memanfaatkan salah satu fitur laravel yaitu menggunakan blade component.
+
+Pada file `label.blade.php` pada direktori `resources/views/components/label.blade.php` menjadi sebagai berikut:
+```ruby
+@props(['value'])
+
+<label {{ $attributes->merge(['class' => 'block font-medium text-sm text-gray-700']) }}>
+    {{ $value ?? $slot }}
+</label>
+```
+
+Untuk menampilkan component yang telah dibuat, cukup memanggilnya pada file view yang memerlukan component tersebut dengan menggunakan syntax `<x-componentname>`. Kita akan mencoba memanggil component label tersebut pada view editor.blade.php, maka kita cukup memanggil dengan `<x-label>` dengan melakukan passing data sesuai dengan nama label.
+```ruby
+<x-guest-layout>
+    <x-auth-card>
+        <x-slot name="logo">
+            <a href="/">
+                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+            </a>
+        </x-slot>
+
+        <!-- Session Status -->
+        <x-auth-session-status class="mb-4" :status="session('status')" />
+
+        <!-- Validation Errors -->
+        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+
+        <form method="POST" action="{{ route('login') }}">
+            @csrf
+
+            <!-- Email Address -->
+            <div>
+                <x-label for="email" :value="__('Email')" />
+
+                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
+            </div>
+
+            <!-- Password -->
+            <div class="mt-4">
+                <x-label for="password" :value="__('Password')" />
+
+                <x-input id="password" class="block mt-1 w-full"
+                                type="password"
+                                name="password"
+                                required autocomplete="current-password" />
+            </div>
+
+            <div class="block mt-4">
+                <label for="remember_me" class="inline-flex items-center">
+                    <span class="text-sm text-gray-600 hover:text-gray-900">Belum punya akun? <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('register') }}">{{ __('Registrasi') }}</a></span>
+                </label>
+            </div>
+
+            <div class="flex items-center justify-end mt-4">
+                <x-button class="ml-3">
+                    {{ __('Log in') }}
+                </x-button>
+            </div>
+        </form>
+    </x-auth-card>
+</x-guest-layout>
+```
+Berikut merupakan tampilan untuk menu login:
+
+![image](https://drive.google.com/uc?export=view&id=1dRgpiRMu7520oXig-0JrXHzM4XcM27a8)
+
 ## Session and Caching
 ### Session
 Pada projek ini di session digunakan untuk localization seperti ini
