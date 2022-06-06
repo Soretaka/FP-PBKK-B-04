@@ -787,3 +787,415 @@ Untuk menjalankan HTTP test dapat menjalankan command berikut
 ```
 php artisan test
 ```
+
+## Laravel authentication and authorization
+### authentication
+Pada authentication, kami menggunakan breeze
+
+pertama-tama kita lakukan
+
+```
+    composer require laravel/breeze --dev
+```
+
+lalu
+
+```
+php artisan breeze:install
+```
+
+lalu jalankan
+
+```
+npm install && npm run dev
+```
+
+berikut adalah tampilan halaman login:
+
+Berikut adalah tampilan halaman register:
+
+Berikut adalah salah satu contoh dalam file `app\Http\Controllers\BookController.php` mengambil data user menggunakan Auth:
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Category;
+use App\Models\Book;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+class BookController extends Controller
+{
+    // index
+    public function index() {
+        $books = Book::all();
+        if(Auth::user()->isAdmin){
+        return view('book.index', [
+            "title" => "Book",
+            "books" => $books
+        ]);
+        }else{
+            return view('user.buku',[
+                "title" => "Book",
+                "books" => $books
+            ]);
+        }
+    }
+
+    // show input form 
+    public function showInputForm() {
+        $categories = Category::all();
+
+        return view('book.create', [
+            "title" => "Book Input Form",
+            "categories" => $categories
+        ]);
+    }
+
+    // store data
+    public function store(Request $request) {
+        $validateData = $request->validate([
+            'image' => 'required | image | mimes:jpeg,png,jpg | max:2048',
+            'judul' => 'required',
+            'penulis' => 'required',
+            'penerbit' => 'required',
+            'tahun_terbit' => 'required',
+            'isbn' => 'required',
+            'status' => 'required',
+            'kategori_id' => 'required'
+        ]);
+        if($request->file('image')) {
+            $validateData['image'] = $request->file('image')->store('book-image');
+        }
+        Book::create($validateData);
+
+        return redirect()->route('book.index')->with('status', 'Data buku berhasil ditambah!');
+    }
+
+    // show detail 
+    public function detail($id) {
+        $book = Book::where('id', $id)->first();
+
+        return view('book.detail', [
+            "title" => "Book Detail",
+            "book" => $book
+        ]);
+    }
+
+    // show edit form 
+    public function showEditForm($id) {
+        $book = Book::where('id', $id)->first();
+        $categories = Category::all();
+
+        return view('book.edit', [
+            "title" => "Book Edit Form",
+            "book" => $book,
+            "categories" => $categories
+        ]);
+    }
+
+    // store edit data
+    public function update(Request $request, $id) {
+        $book = Book::findOrFail($id);
+        $validateData = $request->validate([
+            'image' => 'required | image | mimes:jpeg,png,jpg | max:2048',
+            'judul' => 'required',
+            'penulis' => 'required',
+            'penerbit' => 'required',
+            'tahun_terbit' => 'required',
+            'isbn' => 'required',
+            'status' => 'required',
+            'kategori_id' => 'required'
+        ]);
+        if($request->file('image')) {
+            if($request->oldImage) {
+                Storage::delete($request->oldImage);
+            }
+            $validateData['image'] = $request->file('image')->store('book-image');
+        }
+        $book->update($validateData);
+        
+        return redirect()->route('book.index')->with('status', 'Data buku berhasil diedit!');
+    }
+
+    // delete
+    public function destroy($id) {
+        $book = Book::findOrFail($id);
+        if($book->image) {
+            Storage::delete($book->image);
+        }
+        $book->delete();
+
+        return redirect()->route('book.index')->with('status', 'Data buku berhasil dihapus!');
+    }
+}
+```
+
+
+### Authorization
+Dalam project kami, autorisasi kami menggunakan middleware yang dapat diakses melalui `app\Http\Middleware\CheckRole.php`:
+```php
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+
+class CheckRole
+{
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
+     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
+     */
+    public function handle(Request $request, Closure $next,string $role)
+    {
+        if($role == 'admin' && auth()->user()->isAdmin != 1){
+            abort(403);
+        }
+        // if($role == 'user' && auth()->user()->isAdmin != 0){
+        //     abort(403);
+        // }
+        return $next($request);
+    }
+}
+```
+
+Lalu pada `routes\web.php` ditambahkan sebagai berikut:
+```php
+Route::group(['middleware' => 'auth'], function() {
+    Route::get("/redirectAuthenticatedUsers", [RedirectAuthenticatedUsersController::class, "home"]);
+    //untuk admin
+    Route::group(['middleware' => 'checkRole:admin'], function() {
+    //view yang dapat diakses oleh admin
+    });
+    
+    // User
+    Route::group(['middleware' => 'checkRole:user'], function() {
+    //view yang dapat diakses oleh user
+    });
+});
+```
+
+autorisasi kami membagi user menjadi 2, yaitu admin dan user.
+
+## Laravel jobs and queue
+### membuat queue
+Pertama tama kita lakukan
+```
+php artisan queue:table
+```
+
+lalu
+```
+php artisan migrate
+```
+### membuat job
+Pada project kami, kami membuat job `SendWelcomeEmailJob.php` dengan cara:
+```
+php artisan make:job SendWelcomeEmailJob
+```
+lalu akan terbuat sebuah file pada `app\Jobs\SendWelcomeEmailJob.php`.
+
+File tersebut diubah menjadi sebagai berikut:
+```php
+<?php
+
+namespace App\Jobs;
+
+use App\Mail\SendEmailWelcome;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Mail;
+
+class SendWelcomeEmailJob implements ShouldQueue
+{
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    protected $details;
+
+    /**
+     * Create a new job instance.
+     *
+     * @return void
+     */
+    public function __construct($details)
+    {
+        $this->details = $details;
+    }
+
+    /**
+     * Execute the job.
+     *
+     * @return void
+     */
+    public function handle()
+    {
+        Mail::to($this->details['email'])->send(new SendEmailWelcome($this->details['name']));
+    }
+}
+```
+
+lalu kita membuat mailable class dengan cara
+```
+php artisan make:mail SendEmailWelcome
+```
+dan akan terbuat file `app\Mail\SendEmailWelcome.php` yang kita ubah menjadi:
+
+```php
+<?php
+
+namespace App\Mail;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
+
+class SendEmailWelcome extends Mailable
+{
+    use Queueable, SerializesModels;
+    private $name;
+    /**
+     * Create a new message instance.
+     *
+     * @return void
+     */
+    public function __construct($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
+    public function build()
+    {
+        return $this->markdown('emails.welcome')
+                    ->with('name', $this->name);
+    }
+}
+```
+
+lalu kita membuat blade `resources\views\emails\welcome.blade.php` yang berisikan:
+```php
+@component('mail::message')
+# Terimakasih sudah mendaftar di Perpustakaan!
+halo {{ $name }}!
+@endcomponent
+```
+
+untuk mengetest, kita dapat melakukan:
+```
+php artisan queue:work
+```
+lalu membuat akun.
+## Laravel command and scheduling
+Pada project kami, kami menggunakan command and scheduling untuk mengirimkan email kepada orang yang memiliki tenggat waktu pengembalian buku hari ini.
+### command
+untuk command dapat diakses di `app\Console\Commands\EmailCommand.php`:
+```php
+<?php
+
+namespace App\Console\Commands;
+
+use App\Mail\RemainderEmailDigest;
+use Illuminate\Console\Command;
+use App\Models\Borrow;
+use SebastianBergmann\CodeUnit\FunctionUnit;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+class EmailCommand extends Command
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'email:user';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Email mengingatkan pengembalian buku';
+
+    /**
+     * Execute the console command.
+     *
+     * @return int
+     */
+    public function handle()
+    {
+        $borrows=Borrow::where('must_return_date',now()->format('Y-m-d'))
+        ->orderBy('user_id')
+        ->get();
+        $data =[];
+        foreach($borrows as $borrow){
+            $data[$borrow->user_id][] = $borrow;
+        }
+         foreach ($data as $userId=>$borrows){
+             $this->sendEmailToUser($userId,$borrows);
+         }
+    }
+    private function sendEmailToUser($userId, $reminders){
+        $user = User::find($userId);
+        Mail::to($user)->send(new RemainderEmailDigest($reminders));
+    }
+}
+```
+### scheduling
+untuk schedule kita dapat mengubah file `app\Console\Kernel.php` menjadi sebagai berikut:
+
+```php
+<?php
+
+namespace App\Console;
+
+use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Symfony\Component\Mailer\Messenger\SendEmailMessage;
+use App\Console\Commands\EmailCommand;
+
+class Kernel extends ConsoleKernel
+{
+    /**
+     * Define the application's command schedule.
+     *
+     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @return void
+     */
+    protected $commands=[
+        EmailCommand::class,
+    ];
+    
+    protected function schedule(Schedule $schedule)
+    {
+        $schedule->command('email:user')->daily();
+    }
+
+    /**
+     * Register the commands for the application.
+     *
+     * @return void
+     */
+    protected function commands()
+    {
+        $this->load(__DIR__.'/Commands');
+
+        require base_path('routes/console.php');
+    }
+}
+
+```
