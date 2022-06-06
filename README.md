@@ -277,7 +277,95 @@ public function index($locale){
 }
 ```
 ### Caching
-###  Route, Controller and Middleware
+Caching yang digunakan terletak pada folder berikut
+![image](https://user-images.githubusercontent.com/85062827/172189369-8dd2df94-537c-4423-85c9-4d4ec9a941bd.png)
+pada `/bootstrap/cache/config.php` codenya seperti ini
+
+```
+<?php return array (
+  'app' => 
+  array (
+    'name' => 'Laravel',
+    'env' => 'local',
+    'debug' => true,
+    'url' => 'http://localhost',
+    'asset_url' => NULL,
+    'timezone' => 'Asia/Jakarta',
+    'locale' => 'en',
+    'fallback_locale' => 'en',
+    'faker_locale' => 'en_US',
+    'key' => 'base64:3rIXhOq9R80uCDClDbqdCeluEW220gwiShmDWTu3E4o=',
+    'cipher' => 'AES-256-CBC',
+...
+```
+
+pada  `/bootstrap/cache/route-v7.php` potongan codenya seperti ini
+```
+...
+'/adminDashboard' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'dashboard-index',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/category' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'category.index',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/category/input-form' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'category.input-data',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+...
+```
+
+##  Route, Controller and Middleware
 Diambil dari salah satu contoh yaitu BookController
 
 Pertama untuk membuat controller, dapat menjalankan command berikut
