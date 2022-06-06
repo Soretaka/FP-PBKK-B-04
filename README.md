@@ -278,7 +278,9 @@ public function index($locale){
 ```
 ### Caching
 Caching yang digunakan terletak pada folder berikut
+
 ![image](https://user-images.githubusercontent.com/85062827/172189369-8dd2df94-537c-4423-85c9-4d4ec9a941bd.png)
+
 pada `/bootstrap/cache/config.php` codenya seperti ini
 
 ```
