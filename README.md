@@ -1533,6 +1533,69 @@ class EmailCommand extends Command
     }
 }
 ```
+lalu kita lakukan
+```
+php artisan make:mail RemainderEmailDigest
+```
+dan diubah menjadi sebagai berikut:
+```php
+<?php
+
+namespace App\Mail;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
+
+class RemainderEmailDigest extends Mailable implements ShouldQueue
+{
+    use Queueable, SerializesModels;
+
+    /**
+     * Create a new message instance.
+     *
+     * @return void
+     */
+    private $reminders;
+    public function __construct($reminders)
+    {
+        $this->reminders = $reminders;
+    }
+
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
+    public function build()
+    {
+        return $this->markdown('emails.reminder-digest')
+                    ->with('reminders',$this->reminders);
+    }
+}
+```
+lalu kita buat `resources\views\emails\reminder-digest.blade.php` menjadi sebagai berikut:
+```ruby
+@component('mail::message')
+# Jangan lupa untuk mengembalikan buku
+@foreach($reminders as $reminder)
+halo {{ $reminder->user->name }} !
+Berikut adalah daftar buku yang harus anda kembalikan sebelum tanggal {{ date('d-m-Y',strtotime($reminder->must_return_date)) }}:
+@component('mail::table')
+|judul_buku|
+|:---------:|
+    @foreach($reminder->borrowDetails as $borrowDetails)
+    |{{ $borrowDetails->book->judul}}
+    @endforeach
+@endforeach
+@endcomponent
+
+Jangan sampai telat ya!<br>
+@endcomponent
+
+```
+
 ### scheduling
 untuk schedule kita dapat mengubah file `app\Console\Kernel.php` menjadi sebagai berikut:
 
