@@ -4,7 +4,7 @@ Nama Anggota Kelompok:
 
 - Anak Agung Yatestha Parwata (5025201234)
 - Tegar Ganang Satrio Priambodo (5025201002)
--
+- Muhammad Naufaldillah (05111940000202)
 - Nur Hidayati (05111940000028)
 
 ---
